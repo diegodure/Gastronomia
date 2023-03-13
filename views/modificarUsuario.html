@@ -1,0 +1,71 @@
+<div class="overlay2">
+<div class="modal2">
+	<div class="modal-header">
+			<button ng-click="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title"><i class='glyphicon glyphicon-edit'></i> Editar Usuario</h4>
+		  </div>
+		<div class="modal-body">
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Nombre</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="nombre" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Apellido</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="apellido" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">User</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="user" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Pass</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="pass">
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Rol</label>
+				<div class="col-sm-8">
+					<select class="form-control"
+      				ng-options="rol.Nombre for rol in roles track by rol.idRoles"
+      				ng-model="myRol">	
+					</select>
+				</div>
+
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Sucursal</label>
+				<div class="col-sm-8">
+					<select class="form-control"
+      				ng-options="sucursal.Nombre for sucursal in sucursales track by sucursal.idSucursal"
+      				ng-model="mySucursal">	
+					</select>
+				</div>
+
+			</div>
+			<br>
+			<br>
+		</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>
+		<button type="submit" class="btn btn-primary" ng-click="modificarUsuario()">Guardar Datos</button>
+	</div>
+</div>
+</div>

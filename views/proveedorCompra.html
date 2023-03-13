@@ -1,0 +1,57 @@
+<div class="overlay">
+<div class="modal">
+	<div class="modal-header">
+			<button ng-click="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title"><i class='glyphicon glyphicon-search'></i> Buscar proveedor</h4>
+		  </div>
+		<div class="modal-body">
+
+			<div class="form-group row">
+				<label for="q" class="col-md-2 control-label">Nombre del Proveedor</label>
+				<div class="col-md-5">
+					<input type="text" class="form-control" id="q" placeholder="Nombre del proveedor" ng-model="buscar.Nombre">
+				</div>
+				<div class="col-md-3">
+					<button type="button" class="btn btn-default">
+					<span class="glyphicon glyphicon-search"></span> Buscar</button>
+					<span></span>
+				</div>
+							
+			</div>
+
+			<br>
+			<div class="table-responsive">
+							<table class="table">
+								<tr class="info">
+									<th>Código</th>
+									<th><span class="caret" style="cursor: pointer;" ng-click="ordenarPor('Nombre')"></span>Nombre/s<span class="caret" style="cursor: pointer;" ng-click="ordenarPor('-Nombre')"></span></th>
+									<th>Apellido</th>
+									<th>Info</th>
+									<th>Empresa</th>
+									<th class='text-right'>Acciones</th>
+								</tr>
+								
+								<tr ng-repeat="proveedor in proveedores | orderBy:ordenSeleccionado | filter:buscar">
+									<td>{{proveedor.idProveedores}}</td>
+									<td>{{proveedor.Nombre}}</td>
+							
+									<!-- Filtro lowercase para letras en minusculas -->
+									<td>{{proveedor.Apellido | lowercase}}</td>
+									<td>{{proveedor.Informacion}}</td>
+									<td>{{proveedor.Empresa}}</td>
+
+									<td><span class="pull-right">
+									<a href="#" class='btn btn-default' title='Elegir proveedor' ng-click="elegir(proveedor)" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i></a> 
+									</span></td>
+								</tr>
+								
+							</table>
+						</div>
+			<br>
+			<br>
+		</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>
+	</div>
+</div>
+</div>

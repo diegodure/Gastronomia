@@ -1,0 +1,77 @@
+<div class="overlay">
+<div class="modal">
+	<div class="modal-header">
+			<button ng-click="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title"><i class='glyphicon glyphicon-edit'></i> Agregar nueva Empresa</h4>
+		  </div>
+		<div class="modal-body">
+			<small style="font-weight: bolder;color: #286090;">Campos Obligatorios(*)</small>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Nombre (*)</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="nombre" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Descripción</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="descripcion" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">País (*)</label>
+				<div class="col-sm-8">
+					<select name="selectEnterprise" class="form-control" id="selectCountry" ng-model="pais">
+						<option value="">---Seleccionar---</option> <!-- not selected / blank option -->
+	      				<option ng-repeat="pais in paises" value="{{pais.idPais}}">{{pais.Nombre}}</option> <!-- interpolation -->
+					</select>
+			</div>
+			<br>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Ciudad (*)</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="ciudad" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Barrio (*)</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="barrio" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Dirección (*)</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="direccion" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Telefono</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="telefono" required>
+				</div>
+			</div>
+			<br>
+			<br>
+		</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>
+		<button type="submit" class="btn btn-primary" ng-click="registerEnterprise()">Guardar Datos</button>
+	</div>
+</div>
+</div>
+
+

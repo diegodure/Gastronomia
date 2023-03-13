@@ -1,0 +1,62 @@
+<div class="overlay">
+<div class="modal">
+	<div class="modal-header">
+			<button ng-click="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title"><i class='glyphicon glyphicon-search'></i> Buscar producto</h4>
+		  </div>
+		<div class="modal-body">
+
+			<div class="form-group row">
+				<label for="q" class="col-md-2 control-label">Nombre del Producto</label>
+				<div class="col-md-5">
+					<input type="text" class="form-control" id="q" placeholder="Nombre del producto" ng-model="buscar.$">
+				</div>
+				<div class="col-md-2">
+					<button type="button" class="btn btn-default">
+					<span class="glyphicon glyphicon-search"></span> Buscar</button>
+					<span></span>
+				</div>
+							
+			</div>
+
+			<br>
+			<div class="table-responsive productoFactura">
+							<table class="table">
+								<tr class="info">
+									<th>Código</th>
+									<th><span class="caret" style="cursor: pointer;" ng-click="ordenarPor('Nombre')"></span>Nombre/s<span class="caret" style="cursor: pointer;" ng-click="ordenarPor('-Nombre')"></span></th>
+									<th>Descripcion</th>
+									<th>Precio Minorista</th>
+									<th>Precio Mayorista</th>
+									<th>Precio Promocional</th>
+									<th>Proveedor</th>
+									<th class='text-right'>Acciones</th>
+								</tr>
+								
+								<tr ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:buscar:strict">
+									<td>{{producto.idProductos}}</td>
+									<td>{{producto.Nombre}}</td>
+							
+									<!-- Filtro lowercase para letras en minusculas -->
+									<td>{{producto.Descripcion | lowercase}}</td>
+
+									<td>{{producto.PrecioUnitario | currency:'₲'}}</td>
+									<td>{{producto.PrecioMayorista | currency:'₲'}}</td>
+									<td>{{producto.PrecioPromocional | currency:'₲'}}</td>
+									<td>{{producto.provN}}</td>
+
+									<td><span class="pull-right">
+									<a href="#" class='btn btn-default' title='Elegir producto' ng-click="elegir(producto)" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i></a> 
+									</span></td>
+								</tr>
+								
+							</table>
+						</div>
+			<br>
+			<br>
+		</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>
+	</div>
+</div>
+</div>

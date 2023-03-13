@@ -1,0 +1,97 @@
+.modal {
+  display: block;
+  position: relative;
+  top: 50px; left: 50px; bottom: 50px; right: 50px;
+  background: #fff;
+  z-index: 1000;
+  width: 50%;
+  height: auto;
+  margin-left: 240px;
+
+}
+.modal2 {
+  display: block;
+  position: relative;
+  top: 50px; left: 50px; bottom: 50px; right: 50px;
+  background: #fff;
+  z-index: 1000;
+  width: 50%;
+  height: auto;
+  margin-left: 240px;
+
+}
+.modalVentas{
+    border-radius: 10px;
+    position: absolute;
+    background: white;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+
+.overlay2 {
+/*  display: block;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: rgba(0, 0, 0, 0.5);*/
+
+  /* A green translucent div that covers the whole screen */
+  position:absolute;
+  z-index:1000;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+@media all and (min-width: 201px) and (max-width: 768px)
+{
+    .modal
+    {
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        margin-left: 0px;
+        width: auto;
+    }
+    .modal2{
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        margin-left: 0px;
+        width: auto;
+    }
+    .productoFactura{
+      max-height: 100% !important;
+    }
+    .modal-body{
+      height: auto !important;
+    }
+    .modalVentas{
+      top: 130% !important;
+      left: 10% !important;
+    }
+}
+
+
+.overlay {
+/*  display: block;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: rgba(0, 0, 0, 0.5);*/
+
+  /* A green translucent div that covers the whole screen */
+  position:absolute;
+  z-index:1000;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
+

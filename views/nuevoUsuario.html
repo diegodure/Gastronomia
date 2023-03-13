@@ -1,0 +1,74 @@
+<div class="overlay">
+<div class="modal">
+	<div class="modal-header">
+			<button ng-click="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title"><i class='glyphicon glyphicon-edit'></i> Agregar nuevo usuario</h4>
+		  </div>
+		<div class="modal-body">
+			<small style="font-weight: bolder;color: #286090;">Campos Obligatorios(*)</small>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Nombre (*)</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="nombre" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Apellido (*)</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="apellido" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">User</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="user" required>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Pass</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" ng-model="pass">
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Rol</label>
+				<div class="col-sm-8">
+					<select name="selectRol" class="form-control" id="selectRol" ng-model="rol">
+						<option value="">---Seleccionar---</option> <!-- not selected / blank option -->
+	      				<option ng-repeat="rol in roles" value="{{rol.idRoles}}">{{rol.Nombre}}</option> <!-- interpolation -->
+					</select>
+				</div>
+				
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Sucursal</label>
+				<div class="col-sm-8">
+					<select name="selectSucursal" class="form-control" id="selectSucursal" ng-model="sucursal">
+						<option value="">---Seleccionar---</option> <!-- not selected / blank option -->
+	      				<option ng-repeat="sucursal in sucursales" value="{{sucursal.idSucursal}}">{{sucursal.Nombre}}</option> <!-- interpolation -->
+					</select>
+				</div>
+				
+			</div>
+			<br>
+			<br>
+		</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>
+		<button type="submit" class="btn btn-primary" ng-click="guardarUsuario()">Guardar Datos</button>
+	</div>
+</div>
+</div>
+
+
