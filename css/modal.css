@@ -20,6 +20,10 @@
   margin-left: 240px;
 
 }
+.modalExtraHeigth{
+  width: 80%;
+  margin-left: 65px;
+}
 .modalVentas{
     border-radius: 10px;
     position: absolute;

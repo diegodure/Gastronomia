@@ -3,7 +3,7 @@
     include("../conect.php");
     
     if(isset($_SESSION['user'])){
-    	$title = "Facturas | Simple Invoice"
+    	$title = "Impulse"
   ?>
   <!DOCTYPE html>
 <html>
@@ -42,174 +42,29 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				
-				<h4><i class='glyphicon glyphicon-plus'></i> Nueva Venta <span style="float: right;">C(CLIENTES) P(PRODUCTOS) R(REGISTRAR)</span></h4>
+				<h4><i class='glyphicon glyphicon-plus'></i> Nueva Venta </h4>
 			</div>
 					<div class="panel-body row">
-						<form class="form-vertical col-lg-6 col-md-6 col-sm-6 col-xs-12" role="form">
-
-						    <div class="form-group row">
-						        <label for="q" class="col-md-6 control-label">Buscar Cliente</label>
-
-                                    <div class="col-md-6">
-                                	    <button type="button" class="btn btn-default" ng-click="modalUsuario()">
-                                		<span class="glyphicon glyphicon-search"></span> Buscar</button>
-                                		<span></span>
-                                	</div>
-						    </div>
-				
-							<div class="form-group row">
-                                <label for="q" class="col-md-6 control-label">Codigo del Cliente</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" required placeholder="Codigo del cliente" ng-model="cliente.id"  readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-								<label for="q" class="col-md-6 control-label">Nombre del Cliente</label>
-								<div class="col-md-6">
-									<input type="text" class="form-control" required placeholder="Nombre del cliente" ng-model="cliente.nombre"  readonly>
+						<div ng-repeat="mesa in mesas | orderBy:ordenSeleccionado | filter:buscar" class="col col-xl-3 col-lg-4 col-md-4 col-sm-6" ng-click="showOrder(mesa)">
+							<div ng-if="mesa.Active == 0" class="containerTablesActive">
+								<div style="font-weight:bold">
+									{{mesa.Nombre}}
 								</div>
-							</div>
-
-							<div class="form-group row">
-								<label for="q" class="col-md-6 control-label">Apellido del Cliente</label>
-								<div class="col-md-6">
-									<input type="text" class="form-control" required placeholder="Apellido del cliente" ng-model="cliente.apellido" readonly>
+								<div>
+									{{mesa.Descripcion}}
 								</div>
+								<div>Disponible</div>
 							</div>
-
-							<div class="form-group row">
-								<label for="q" class="col-md-6 control-label">CI/RUC del Cliente</label>
-								<div class="col-md-6">
-									<input type="text" class="form-control" required placeholder="Info del cliente" ng-model="cliente.info"  readonly>
+							<div ng-if="mesa.Active == 1" class="containerTablesInactive">
+								<div style="font-weight:bold">
+									{{mesa.Nombre}}
 								</div>
-							</div>
-				
-						</form>
-
-						<form class="form-vertical col-lg-6 col-md-6 col-sm-6 col-xs-12" role="form" ng-submit="agregarProducto()">
-
-							<div class="form-group row">
-								<label for="q" class="col-md-6 control-label">Buscar Producto</label>
-								
-								<div class="col-md-6">
-									<button type="button" class="btn btn-default" ng-click="modalProducto()">
-									<span class="glyphicon glyphicon-search"></span> Buscar</button>
-									<span></span>
+								<div>
+									{{mesa.Descripcion}}
 								</div>
-
+								<div>Ocupado</div>
 							</div>
-							
-							<div class="form-group row">
-								<label for="q" class="col-md-6 control-label">Nombre del Producto</label>
-								<div class="col-md-6">
-									<input type="text" class="form-control" required placeholder="Nombre del producto" ng-model="prod.Nombre"  readonly>
-								</div>
-							</div>
-
-							<div class="form-group row">
-								<label for="q" class="col-md-6 control-label">Descripcion del Producto</label>
-								<div class="col-md-6">
-									<input type="text" class="form-control" required placeholder="Descripcion del producto" ng-model="prod.Descripcion"  readonly>
-								</div>
-							</div>
-
-							<div class="form-group row">
-								<label for="q" class="col-md-6 control-label">Precio del Producto</label>
-								<div class="col-md-6">
-									<label>Minorista<input type="radio" ng-model="price.type" value="minorista"></label>
-									<label>Mayorista<input type="radio" ng-model="price.type" value="mayorista"></label>
-									<label>Promocional<input type="radio" ng-model="price.type" value="promocional"></label>
-									<span ng-if="price.type === 'minorista'">
-									<input type="text" class="form-control" required placeholder="Precio del producto" ng-model="prod.PrecioUnitario | currency:'₲'" readonly>
-									</span>
-									<span ng-if="price.type === 'mayorista'">
-									<input type="text" class="form-control" required placeholder="Precio del producto" ng-model="prod.PrecioMayorista | currency:'₲'" readonly>
-									</span>
-									<span ng-if="price.type === 'promocional'">
-									<input type="text" class="form-control" required placeholder="Precio del producto" ng-model="prod.PrecioPromocional | currency:'₲'" readonly>
-									</span>
-								</div>
-							</div>
-
-							<div class="form-group row">	
-								<label for="q" class="col-md-6 control-label">Cantidad del Producto</label>
-								<div class="col-md-6">
-									<input type="number" id="cantidadProducto" class="form-control" required placeholder="Cantidad del Producto" ng-model="cantidad">
-								</div>
-							</div>
-
-							<div class="form-group row">
-								<label for="q" class="col-md-6 control-label">Agregar Producto</label>
-								
-								<div class="col-md-6">
-									<button type="submit" class="btn btn-default">
-									<span class="glyphicon glyphicon-plus"></span> Agregar</button>
-									<span></span>
-								</div>
-
-							</div>
-
-						</form>
-
-
-						<div class="table-responsive" id="tableProduct" style="overflow-x: inherit;">
-							<table class="table">
-								<tr class="info">
-									<th>Codigo</th>
-									<th>Nombre</th>
-									<th>Descripcion</th>
-									<th>Precio</th>
-									<th>Cantidad</th>
-									<th>Condición Venta</th>
-									<th>SubTotal</th>
-									<th class='text-right'>Acciones</th>
-								</tr>
-								
-								<tr ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:buscar">
-									<td>{{producto.idP}}</td>
-
-									<td>{{producto.nombre}}</td>
-
-									<!-- Filtro lowercase para letras en minusculas -->
-									<td>{{producto.descripcion | lowercase}}</td>
-
-									
-									<td>{{producto.precio | currency:'₲'}}</td>
-									
-									<td>{{producto.cantidad}}</td>
-
-									<td>{{producto.condicion}}</td>
-
-                                    <td>{{producto.subTotal | currency:'₲'}}</td>
-
-
-									<td><span class="pull-right"> 
-									<a href="#" class='btn btn-default' title='Borrar producto' ng-click="eliminarProducto(producto)"><i class="glyphicon glyphicon-trash"></i> </a></span></td>
-								</tr>
-								
-							</table>
-							
 						</div>
-						<div class="form-group row">
-								<label for="q" class="col-md-3 control-label">Total</label>
-								
-								<div class="col-md-3">
-									<input type="text" class="form-control" required placeholder="Total" ng-model="total | currency:'₲'" readonly>
-								</div>
-
-								<label for="q" class="col-md-3 control-label">Registrar</label>
-								
-								<div class="col-md-3">
-									<button class="btn btn-default" ng-click="prepareToSell()">
-									<span class="glyphicon glyphicon-plus"></span>Registrar</button>
-									
-								</div>
-
-							</div>
-							<div id="saleToPrint" class="table-responsive" style="display: none;">
-							
-							</div>
 					</div>
 			</div>
 

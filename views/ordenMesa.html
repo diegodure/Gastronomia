@@ -1,0 +1,57 @@
+<div class="overlay2">
+<div class="modal2 modalExtraHeigth">
+	<div class="modal-header">
+			<button ng-click="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title"><i class='glyphicon glyphicon-edit'></i> Agregar orden</h4>
+		  </div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+					<div style="margin-bottom: 5px;">
+						<label class="bolder">Cliente: </label><span> {{clientInfo}}</span>
+						<i class="glyphicon glyphicon-plus" style="background: #429B46;color: white;padding: 5px;border-radius: 10px;font-size: 11px;float: right;cursor: pointer;"></i>
+					</div>
+					
+					<div class="table-responsive" style="overflow: auto;max-height: 300px;min-height: 200px;">
+				    	<table class="table">
+							<tr class="info">
+								<th>Cantidad</th>
+								<th>Nombre</th>
+								<th>Costo</th>
+								<th>Acciones</th>
+							</tr>
+							<tr ng-repeat="dO in detailOrder">
+								<td>
+									<input type="number" ng-model="dO.cantidad" ng-change="updateAmountOder(this,$index)" style="width:30%" >
+								</td>
+								<td>{{dO.Nombre}}</td>
+								<td>{{dO.PrecioUnitario | currency :'₲':0}}</td>
+								<td>
+									<span class="pull-right">
+										<i class="glyphicon glyphicon-remove-sign" style="font-size: 20px;cursor: pointer;color: #E82727;" ng-click="removeProductFromOrder(dO,$index)"></i>
+									</span>
+								</td>
+							</tr>
+						</table>
+				    </div>
+					
+					<label style="font-weight:bolder">Total: </label>
+					<span>{{totalOrder | currency :'₲':0}}</span> 
+				</div>
+				<div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12" style="overflow: auto;max-height: 300px;">
+					<div ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:buscar" class="productForOrder" ng-click="addProductToOrder(producto, $index)">
+						<div>{{producto.Nombre}}</div>
+						<div style="min-height:100px">
+							<img src="data:image/*;base64,{{producto.Imagen}}" style="max-height:100px" class="img-thumbnail">
+						</div>
+						<div>{{producto.PrecioUnitario | currency :'₲':0}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>
+		<button type="submit" class="btn btn-primary" ng-click="guardarOrden()">Guardar Datos</button>
+	</div>
+</div>
+</div>

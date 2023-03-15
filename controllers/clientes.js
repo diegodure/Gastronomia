@@ -91,7 +91,7 @@ angular.module('clientes',['angularModalService'])
 			templateUrl: "modificarCliente.html",
 			controller: "modificarCtrl",
 			 inputs: {
-				id: cliente.idCliente,
+				id: cliente.idClientes,
     			nombre: cliente.Nombre,
     			apellido: cliente.Apellido,
     			info: cliente.Info
@@ -113,7 +113,7 @@ angular.module('clientes',['angularModalService'])
 			templateUrl: "eliminarCliente.html",
 			controller: "eliminarCtrl",
 			inputs: {
-				id: cliente.idCliente,
+				id: cliente.idClientes,
 				info: cliente.Info
 			}
 		}).then(function(modal){

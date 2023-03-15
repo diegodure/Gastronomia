@@ -21,19 +21,7 @@
 
 
 <div ng-controller="ProductosCtrl" class="container">	
-		<i class='glyphicon glyphicon-warning-sign iconExpiredProducts' 
-		 ng-click="showExpiredProducts()" title="Ver productos por vencer"></i>	
-		 <div class="modalImpulse modalExpiredProducts">
-		 	<p>Productos por vencer <span aria-hidden="true" 
-		 		style="float: right;margin-right: 10px;cursor: pointer;" ng-click="hideExpiredProducts()">×</span></p>
-		 	<ul ng-repeat="productToExpire in productsInExpireToAlert">
-		 		<li style="list-style: none;font-weight: bold;">
-		 			Nombre: {{productToExpire.Nombre}}
-		 		</li>
-		 		<li>Descripcion: {{productToExpire.Descripcion}}</li>
-		 		<li>Vencimiento: {{productToExpire.Vencimiento}}</li>
-		 	</ul>
-		 </div>
+		
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<div class="btn-group pull-right">
@@ -66,11 +54,9 @@
 										<span class="caret" style="cursor: pointer;" ng-click="ordenarPor('Nombre')"></span>Nombre/s<span class="caret" style="cursor: pointer;" ng-click="ordenarPor('-Nombre')"></span>
 									</th>
 									<th>Descripcion</th>
-									<th>Cantidad</th>
+									<th>Costo</th>
 									<th>Precio Venta</th>
-									<th>Precio Mayorista</th>
 									<th>Precio Promocional</th>
-									<th>Proveedor</th>
 									<th class='text-right'>Acciones</th>
 								</tr>
 								
@@ -80,14 +66,9 @@
 										{{producto.Nombre}}
 									</td>
 									<td>{{producto.Descripcion}}</td>
-							
-									<!-- Filtro lowercase para letras en minusculas -->
-									<td>{{producto.CantidadActual}}</td>
+									<td>{{producto.Costo | currency :'₲':0}}</td>
 									<td>{{producto.PrecioUnitario | currency :'₲':0}}</td>
-									<td>{{producto.PrecioMayorista | currency :'₲':0}}</td>
 									<td>{{producto.PrecioPromocional | currency :'₲':0}}</td>
-									<td>{{producto.provN}}</td>
-									
 
 									<td><span class="pull-right">
 									<a href="#" class='btn btn-default' title='Editar producto' ng-click="modificar(producto)" data-toggle="modal"><i class="glyphicon glyphicon-edit"></i></a> 

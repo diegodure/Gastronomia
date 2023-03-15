@@ -61,7 +61,7 @@
 								</tr>
 								
 								<tr ng-repeat="cliente in clientes | orderBy:ordenSeleccionado | filter:buscar">
-									<td>{{cliente.idCliente}}</td>
+									<td>{{cliente.idClientes}}</td>
 									<td>{{cliente.Nombre}}</td>
 							
 									<!-- Filtro lowercase para letras en minusculas -->

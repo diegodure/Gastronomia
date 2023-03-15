@@ -28,11 +28,11 @@ angular.module('ventas',['angularModalService'])
     	$scope.price = {
     		type : "minorista"
     	};
-    	$scope.selectConfiguraciones();
+    	$scope.Mesas();
+    	$scope.Productos();
 	});
 
 	window.onkeyup = function (e) {
-		console.log(e.keyCode)
 		if(e.keyCode == 67 && angular.element($(".modal")).length == 0) {
 			$scope.modalUsuario();
 		}else if(e.keyCode == 80 && angular.element($(".modal")).length == 0){
@@ -44,18 +44,54 @@ angular.module('ventas',['angularModalService'])
 		}
   };
 
-	$scope.selectConfiguraciones = function(){
-    angular.element($("#spinerContainer")).css("display", "block");
-	    $http.get('../models/selectConfiguraciones.php').success(function(data){
-	      if(data == "error"){
-	        $scope.configuraciones = [];
-	      }else{
-	        $scope.configuraciones = data;
-	        
-	      }
-	      angular.element($("#spinerContainer")).css("display", "none");
-	    });
-  	};
+	$scope.Mesas = function(){
+		angular.element($("#spinerContainer")).css("display", "block");
+		$http.get('../models/selectMesas.php').success(function(data){
+			angular.element($("#spinerContainer")).css("display", "none");
+			if(data == "error"){
+				$scope.mesas = [];
+			}else{
+				$scope.mesas = data;
+				if(data.length > 0){
+					var topbar = angular.element($(".navbar-default")).innerHeight();
+		 			var navbar = angular.element($(".navbar-fixed-bottom")).innerHeight();
+		 			var formGroup = angular.element($(".form-group")).innerHeight();
+	        var panel = angular.element($(".panel-body"));
+					var heightTable = window.outerHeight - topbar - navbar  - formGroup - 250;
+					panel.css("maxHeight", heightTable);
+			
+				}
+			
+			}
+			
+		});
+	};
+
+	$scope.Productos = function(){
+		$http.get('../models/selectProductos.php').success(function(data){
+			if(data == "error"){
+				$scope.productos = [];
+			}else{
+				$scope.productos = data;	
+			}
+		});
+	}
+
+	$scope.showOrder = function(mesa){
+		var productos = $scope.productos;
+		ModalService.showModal({
+	 		templateUrl: "ordenMesa.html",
+      controller: "ordenMesaCtrl",
+			inputs: {mesa,productos}
+	 	}).then(function(modal){
+	 		modal.close.then(function(result){
+	 			if(result){
+	 				$scope.Mesas();
+	 			}
+	 		})
+	 	})
+	}
+
 	//Inicializamos las variables 
 	 $scope.productos = [];
 	 var total = 0, iva = 0;
@@ -337,6 +373,41 @@ angular.module('ventas',['angularModalService'])
 	};
 
 })
+
+.controller('ordenMesaCtrl', function($scope, close, $http, flash,mesa,productos){
+	$scope.clientInfo = "Ocasional"
+	$scope.detailOrder = [];
+	$scope.productos = productos;
+	$scope.totalOrder = 0;
+	$scope.cerrarModal = function(){
+		close();
+	};
+
+	$scope.addProductToOrder = function(product, index){
+		product.cantidad = 1;
+		$scope.detailOrder.push(product);
+		$scope.totalOrder = $scope.totalOrder + (product.cantidad*product.PrecioUnitario)
+	}
+
+	$scope.guardarOrden = function(){
+		
+	}
+
+	$scope.updateAmountOder = function(input,index){
+		$scope.totalOrder = 0;
+		for(var i = 0; i < $scope.detailOrder.length; i++){
+			$scope.totalOrder = $scope.totalOrder + ($scope.detailOrder[i].cantidad*$scope.detailOrder[i].PrecioUnitario);
+		}
+	}
+
+	$scope.removeProductFromOrder = function(product,index){
+		console.log(product);
+		console.log(index);
+		$scope.detailOrder.splice(index,1)
+	}
+
+})
+
 
 .controller('clienteVentaCtrl', function($scope, close, $http){
 	$scope.cerrarModal = function(){
