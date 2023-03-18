@@ -32,18 +32,6 @@ angular.module('ventas',['angularModalService'])
     	$scope.Productos();
 	});
 
-	window.onkeyup = function (e) {
-		if(e.keyCode == 67 && angular.element($(".modal")).length == 0) {
-			$scope.modalUsuario();
-		}else if(e.keyCode == 80 && angular.element($(".modal")).length == 0){
-			$scope.modalProducto();
-		}else if(e.keyCode == 82 && angular.element($(".modal")).length == 0){
-			$scope.prepareToSell();
-		}else if(e.keyCode == 70 && angular.element($(".modalVentas")).css("display") == "block"){
-
-		}
-  };
-
 	$scope.Mesas = function(){
 		angular.element($("#spinerContainer")).css("display", "block");
 		$http.get('../models/selectMesas.php').success(function(data){
@@ -95,20 +83,6 @@ angular.module('ventas',['angularModalService'])
 	//Inicializamos las variables 
 	 $scope.productos = [];
 	 var total = 0, iva = 0;
-
-	 $scope.modalUsuario = function(){
-	 	// Debes proveer un controlador y una plantilla.
-	 	ModalService.showModal({
-	 		templateUrl: "clienteVenta.html",
-      		controller: "clienteVentaCtrl"
-	 	}).then(function(modal){
-	 		modal.close.then(function(result){
-	 			// Una vez que el modal sea cerrado, la libreria invoca esta función
-        		// y en result tienes el resultado.
-        		$scope.cliente = result;
-	 		})
-	 	})
-	 };
 
 	 $scope.modalProducto = function(){
 		//Debes proveer un controlador y una plantilla
@@ -374,8 +348,36 @@ angular.module('ventas',['angularModalService'])
 
 })
 
-.controller('ordenMesaCtrl', function($scope, close, $http, flash,mesa,productos){
-	$scope.clientInfo = "Ocasional"
+.controller('ordenMesaCtrl', function($scope, close, $http, flash,mesa,productos,ModalService){
+
+	$scope.cliente = {id:1,nombre:"Ocasional",apellido:".",info:"XXXXXX"}
+	$scope.showConfirmButton = false;
+	$scope.modalUsuario = function(){
+	 	// Debes proveer un controlador y una plantilla.
+	 	ModalService.showModal({
+	 		templateUrl: "clienteVenta.html",
+      		controller: "clienteVentaCtrl"
+	 	}).then(function(modal){
+	 		modal.close.then(function(result){
+	 			// Una vez que el modal sea cerrado, la libreria invoca esta función
+        		// y en result tienes el resultado.
+        		$scope.cliente = result;
+	 		})
+	 	})
+	 };
+
+	window.onkeyup = function (e) {
+		if(e.keyCode == 67 && angular.element($(".modal")).length == 0) {
+			$scope.modalUsuario();
+		}else if(e.keyCode == 80 && angular.element($(".modal")).length == 0){
+			$scope.modalProducto();
+		}else if(e.keyCode == 82 && angular.element($(".modal")).length == 0){
+			$scope.prepareToSell();
+		}else if(e.keyCode == 70 && angular.element($(".modalVentas")).css("display") == "block"){
+
+		}
+  };
+
 	$scope.detailOrder = [];
 	$scope.productos = productos;
 	$scope.totalOrder = 0;
@@ -384,16 +386,56 @@ angular.module('ventas',['angularModalService'])
 	};
 
 	$scope.addProductToOrder = function(product, index){
+		if(!$scope.showConfirmButton){
+			$scope.showConfirmButton = true;
+		}
 		product.cantidad = 1;
 		$scope.detailOrder.push(product);
-		$scope.totalOrder = $scope.totalOrder + (product.cantidad*product.PrecioUnitario)
+		$scope.totalOrder = $scope.totalOrder + (product.cantidad*product.PrecioUnitario);
+		angular.element($("#productForOrder-"+product.idProductos+"")).css("display","none");
 	}
 
 	$scope.guardarOrden = function(){
-		
+		console.log($scope.detailOrder);
+		var model = {};
+		if(mesa.Active == 0 || mesa.Active == "0"){
+			model = {
+				total: $scope.totalOrder,
+				idCliente: $scope.cliente.id,
+				idTable: mesa.idMesas
+			};
+			angular.element($("#spinerContainer")).css("display", "block");
+			$http.post("../models/insertFacturas.php", model)
+			.success(function(res){
+				if(res != "error"){
+					$http.post("../models/detFactura.php", $scope.detailOrder)
+					.success(function (res) {
+						angular.element($("#spinerContainer")).css("display", "none");
+						if(res == "error"){
+							$scope.msgTitle = 'Error';
+					    	$scope.msgBody  = 'Ha ocurrido un error!';
+					    	$scope.msgType  = 'error';
+					 		flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+						}else{
+							// $scope.hideModalToSell();
+						 	close(true);
+							$scope.msgTitle = 'Exitoso';
+					    $scope.msgBody  = res;
+					    $scope.msgType  = 'success';
+						 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+						}
+					});	
+				}
+			});
+		}else{
+			console.log("Modificaar venta");
+		}
 	}
 
 	$scope.updateAmountOder = function(input,index){
+		if(!$scope.showConfirmButton){
+			$scope.showConfirmButton = true;
+		}
 		$scope.totalOrder = 0;
 		for(var i = 0; i < $scope.detailOrder.length; i++){
 			$scope.totalOrder = $scope.totalOrder + ($scope.detailOrder[i].cantidad*$scope.detailOrder[i].PrecioUnitario);
@@ -401,9 +443,10 @@ angular.module('ventas',['angularModalService'])
 	}
 
 	$scope.removeProductFromOrder = function(product,index){
-		console.log(product);
-		console.log(index);
-		$scope.detailOrder.splice(index,1)
+		$scope.detailOrder.splice(index,1);
+		$scope.updateAmountOder();
+
+		angular.element($("#productForOrder-"+product.idProductos+"")).css("display","");
 	}
 
 })
@@ -428,7 +471,7 @@ angular.module('ventas',['angularModalService'])
 			nombre: cliente.Nombre,
 			apellido: cliente.Apellido,
 			info: cliente.Info,
-			id: cliente.idCliente
+			id: cliente.idClientes
 		};
 		 // serveData = clientes;
 		 // $scope.obj = serveData;

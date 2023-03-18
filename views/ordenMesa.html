@@ -8,8 +8,8 @@
 			<div class="row">
 				<div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
 					<div style="margin-bottom: 5px;">
-						<label class="bolder">Cliente: </label><span> {{clientInfo}}</span>
-						<i class="glyphicon glyphicon-plus" style="background: #429B46;color: white;padding: 5px;border-radius: 10px;font-size: 11px;float: right;cursor: pointer;"></i>
+						<label class="bolder">Cliente: </label><span> {{cliente.nombre}} {{cliente.apellido}}</span>
+						<i class="glyphicon glyphicon-plus" ng-click="modalUsuario()" style="background: #429B46;color: white;padding: 5px;border-radius: 10px;font-size: 11px;float: right;cursor: pointer;"></i>
 					</div>
 					
 					<div class="table-responsive" style="overflow: auto;max-height: 300px;min-height: 200px;">
@@ -39,7 +39,7 @@
 					<span>{{totalOrder | currency :'₲':0}}</span> 
 				</div>
 				<div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12" style="overflow: auto;max-height: 300px;">
-					<div ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:buscar" class="productForOrder" ng-click="addProductToOrder(producto, $index)">
+					<div ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:buscar" class="productForOrder" id="productForOrder-{{producto.idProductos}}" ng-click="addProductToOrder(producto, $index)">
 						<div>{{producto.Nombre}}</div>
 						<div style="min-height:100px">
 							<img src="data:image/*;base64,{{producto.Imagen}}" style="max-height:100px" class="img-thumbnail">
@@ -50,8 +50,9 @@
 			</div>
 		</div>
 	<div class="modal-footer">
-		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>
-		<button type="submit" class="btn btn-primary" ng-click="guardarOrden()">Guardar Datos</button>
+		<button ng-if="detailOrder.length > 0" type="submit" class="btn btn-success" ng-click="closeTable()">Cerrar Mesa</button>
+		<button ng-if="showConfirmButton" type="submit" class="btn btn-primary" ng-click="guardarOrden()">Confirmar</button>
+		<button class="btn btn-default" ng-click="cerrarModal()">Cancelar</button>
 	</div>
 </div>
 </div>

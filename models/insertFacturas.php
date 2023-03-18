@@ -1,14 +1,24 @@
 <?php
 	$data = json_decode(file_get_contents("php://input"));
-	$id = $data->{"id"};
+	$idCliente = $data->{"idCliente"};
+	$idTable = $data->{"idTable"};
 	$total = $data->{"total"};
 	//echo($id);
 
 	include("../conect.php");
 
-    $sql = "insert into ventas (idVentas, Fecha, Total, Cliente_idCliente, active) values (null, CURDATE(), '$total', '$id', 0)";
+    $sql = "insert into ventas (idVentas, Fecha, Total, Clientes_idClientes, Mesas_idMesas, Estado) values (null, CURDATE(), '$total', '$idCliente', '$idTable', 0)";
 
-    $con->query($sql);
+    $results = $con->query($sql);
+
+    $sql2 = "update mesas set Active=1 where idMesas='$idTable'";
+    $result2 = $con->query($sql2);
+
+	if(!$results && !$result2){ 
+    	echo "error";
+    }else{
+    	echo "Orden creada!";
+    }
 
     $con->close();
 

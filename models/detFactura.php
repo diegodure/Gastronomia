@@ -20,32 +20,21 @@
     $resta = 0;
     $i = 0;
 	foreach($data as $obj){
-        $idP = $obj['id'];
-        $precio = $obj['precio'];
+        $idP = $obj['idProductos'];
+        $precio = $obj['PrecioUnitario'];
         $cantidad = $obj['cantidad'];
-        $subT = $obj['subT'];
-        $condicion = $obj['condicion'];
-        $sql2 = "insert into det_ventas (Ventas_idVentas, Productos_idProductos, Cantidad, Precio, subtotal, Condicion)
+        $subT = $precio * $cantidad;
+        $condicion = "Unidad";
+        $sql2 = "insert into det_ventas (Ventas_idVentas, Productos_idProductos, Cantidad, Precio, subTotal, Condicion_Venta)
         values ('$idV', '$idP', '$cantidad', '$precio', '$subT', '$condicion')";
 	    //print ($iva);
-	    $con->query($sql2);
-
-        $sql3 = "select CantidadActual from productos where idProductos='$idP'";
-        $result2 = $con->query($sql3);
-        while ($row = mysqli_fetch_array($result2)) {
-            $rawdata[$i] = $row;
-            
-            $resta = $row["CantidadActual"] - $cantidad;
-            $sql4 = "update productos set CantidadActual='$resta' where idProductos='$idP'";
-            $result3 = $con->query($sql4);
-            $i++;
-        }
+	    $result3 = $con->query($sql2);
 	}
 
     if(!$result3){ 
         echo "error";
     }else{
-        echo "Venta registrada correctamente!";
+        echo "Orden creada correctamente!";
     }
 
 	$con->close();
