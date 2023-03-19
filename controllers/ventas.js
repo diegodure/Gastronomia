@@ -348,9 +348,50 @@ angular.module('ventas',['angularModalService'])
 
 })
 
-.controller('ordenMesaCtrl', function($scope, close, $http, flash,mesa,productos,ModalService){
+.directive('numberConverter', function() {
+  return {
+    priority: 1,
+    restrict: 'A',
+    require: 'ngModel',
+    link: function(scope, element, attr, ngModel) {
+      function toModel(value) {
+        return "" + value; // convert to string
+      }
 
-	$scope.cliente = {id:1,nombre:"Ocasional",apellido:".",info:"XXXXXX"}
+      function toView(value) {
+        console.log("toView", value);
+        return parseInt(value); // convert to number
+      }
+
+      ngModel.$formatters.push(toView);
+      ngModel.$parsers.push(toModel);
+    }
+  };
+})
+
+.controller('ordenMesaCtrl', function($scope, close, $http, flash,mesa,productos,ModalService){
+	
+	$scope.productos = productos;
+	if(mesa.Active == 1 || mesa.Active == "1"){
+		var model = {
+			idTable: mesa.idMesas,
+			active: 0
+		}
+		angular.element($("#spinerContainer")).css("display", "block");
+		$http.post('../models/getOrderResume.php',model).success(function(data){
+			angular.element($("#spinerContainer")).css("display", "none");
+			console.log(data);
+			$scope.cliente = {id:data[0].idClientes,nombre:data[0].Nombre,apellido:data[0].Apellido,
+			info:data[0].Info};
+			$scope.idVenta = data[0].idVentas; 
+			$scope.detailOrder = data[1];
+			$scope.updateAmountOder(false);
+		});
+	}else{
+		$scope.detailOrder = [];		
+		$scope.totalOrder = 0;
+		$scope.cliente = {id:1,nombre:"Ocasional",apellido:".",info:"XXXXXX"}
+	}
 	$scope.showConfirmButton = false;
 	$scope.modalUsuario = function(){
 	 	// Debes proveer un controlador y una plantilla.
@@ -378,9 +419,6 @@ angular.module('ventas',['angularModalService'])
 		}
   };
 
-	$scope.detailOrder = [];
-	$scope.productos = productos;
-	$scope.totalOrder = 0;
 	$scope.cerrarModal = function(){
 		close();
 	};
@@ -389,9 +427,9 @@ angular.module('ventas',['angularModalService'])
 		if(!$scope.showConfirmButton){
 			$scope.showConfirmButton = true;
 		}
-		product.cantidad = 1;
+		product.Cantidad = 1;
 		$scope.detailOrder.push(product);
-		$scope.totalOrder = $scope.totalOrder + (product.cantidad*product.PrecioUnitario);
+		$scope.totalOrder = $scope.totalOrder + (product.Cantidad*product.PrecioUnitario);
 		angular.element($("#productForOrder-"+product.idProductos+"")).css("display","none");
 	}
 
@@ -428,23 +466,46 @@ angular.module('ventas',['angularModalService'])
 				}
 			});
 		}else{
-			console.log("Modificaar venta");
+			model = {
+				total: $scope.totalOrder,
+				idCliente: $scope.cliente.id,
+				idTable: mesa.idMesas,
+				idVenta: $scope.idVenta,
+				detail: $scope.detailOrder
+			};
+			angular.element($("#spinerContainer")).css("display", "block");
+			$http.post("../models/updateOrder.php", model)
+			.success(function(res){
+				if(res == "error"){
+					$scope.msgTitle = 'Error';
+			    $scope.msgBody  = 'Ha ocurrido un error!';
+			    $scope.msgType  = 'error';
+			 		flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+				}else{
+					// $scope.hideModalToSell();
+				 	close(true);
+					$scope.msgTitle = 'Exitoso';
+			    $scope.msgBody  = res;
+			    $scope.msgType  = 'success';
+				 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+				}
+			});
 		}
 	}
 
-	$scope.updateAmountOder = function(input,index){
-		if(!$scope.showConfirmButton){
+	$scope.updateAmountOder = function(orderCharged){
+		if(!$scope.showConfirmButton && orderCharged){
 			$scope.showConfirmButton = true;
 		}
 		$scope.totalOrder = 0;
 		for(var i = 0; i < $scope.detailOrder.length; i++){
-			$scope.totalOrder = $scope.totalOrder + ($scope.detailOrder[i].cantidad*$scope.detailOrder[i].PrecioUnitario);
+			$scope.totalOrder = $scope.totalOrder + ($scope.detailOrder[i].Cantidad*$scope.detailOrder[i].PrecioUnitario);
 		}
 	}
 
 	$scope.removeProductFromOrder = function(product,index){
 		$scope.detailOrder.splice(index,1);
-		$scope.updateAmountOder();
+		$scope.updateAmountOder(true);
 
 		angular.element($("#productForOrder-"+product.idProductos+"")).css("display","");
 	}
