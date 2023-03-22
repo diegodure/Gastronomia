@@ -380,12 +380,14 @@ angular.module('ventas',['angularModalService'])
 		angular.element($("#spinerContainer")).css("display", "block");
 		$http.post('../models/getOrderResume.php',model).success(function(data){
 			angular.element($("#spinerContainer")).css("display", "none");
-			console.log(data);
 			$scope.cliente = {id:data[0].idClientes,nombre:data[0].Nombre,apellido:data[0].Apellido,
 			info:data[0].Info};
 			$scope.idVenta = data[0].idVentas; 
 			$scope.detailOrder = data[1];
 			$scope.updateAmountOder(false);
+			for(var i = 0; i < $scope.detailOrder.length; i++){
+				angular.element($("#productForOrder-"+$scope.detailOrder[i].idProductos)).css("display","none");
+			}
 		});
 	}else{
 		$scope.detailOrder = [];		
@@ -433,8 +435,7 @@ angular.module('ventas',['angularModalService'])
 		angular.element($("#productForOrder-"+product.idProductos+"")).css("display","none");
 	}
 
-	$scope.guardarOrden = function(){
-		console.log($scope.detailOrder);
+	$scope.saveOrden = function(){
 		var model = {};
 		if(mesa.Active == 0 || mesa.Active == "0"){
 			model = {
@@ -490,6 +491,15 @@ angular.module('ventas',['angularModalService'])
 				 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
 				}
 			});
+		}
+	}
+
+	$scope.closeTable = function(){
+		//falta agregar condicion cuando es la primera vez en cargar la orden
+		if($scope.showConfirmButton){
+			//insertar los detalles, actualizar el total y estado de la venta
+		}else{
+			//actualizar el estado de la venta
 		}
 	}
 
