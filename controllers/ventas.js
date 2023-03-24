@@ -467,8 +467,14 @@ angular.module('ventas',['angularModalService'])
 				}
 			});
 		}else{
-			model = {
+			$scope.executeUpdateOrder(0);
+		}
+	}
+
+	$scope.executeUpdateOrder = function(state){
+		model = {
 				total: $scope.totalOrder,
+				estado: state,
 				idCliente: $scope.cliente.id,
 				idTable: mesa.idMesas,
 				idVenta: $scope.idVenta,
@@ -491,13 +497,16 @@ angular.module('ventas',['angularModalService'])
 				 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
 				}
 			});
-		}
 	}
 
 	$scope.closeTable = function(){
+		console.log(mesa.Active);
+		console.log($scope.showConfirmButton);
 		//falta agregar condicion cuando es la primera vez en cargar la orden
-		if($scope.showConfirmButton){
-			//insertar los detalles, actualizar el total y estado de la venta
+		if($scope.showConfirmButton && (mesa.Active == 1 || mesa.Active == "1")){
+			$scope.executeUpdateOrder(1);
+		}else if($scope.showConfirmButton && (mesa.Active == 0 || mesa.Active == "0")){
+			//insertar los detalles, el total y cerrar el estado de la venta
 		}else{
 			//actualizar el estado de la venta
 		}

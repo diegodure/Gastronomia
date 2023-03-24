@@ -22,7 +22,7 @@
 	foreach($data as $obj){
         $idP = $obj['idProductos'];
         $precio = $obj['PrecioUnitario'];
-        $cantidad = $obj['cantidad'];
+        $cantidad = $obj['Cantidad'];
         $subT = $precio * $cantidad;
         $condicion = "Unidad";
         $sql2 = "insert into det_ventas (Ventas_idVentas, Productos_idProductos, Cantidad, Precio, subTotal, Condicion_Venta)
