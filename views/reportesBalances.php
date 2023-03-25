@@ -71,6 +71,29 @@
 				</div>
 
 				<div class="row" id="reportContainer">
+					<div class="col col-md-12 col-lg-12 col-xl-12">
+						<h4 style="text-align: center;">Productos más vendidos</h4>
+						<div class="table-responsive">
+					  		<table class="table">
+					  			<tr class="info">
+									<th>Nombre</th>
+									<th>Costo Producto</th>
+									<th>Precio de Venta</th>
+									<th>Tipo de Venta</th>
+									<th>Cantidad de Ventas</th>
+									<th>Total de Ventas</th>
+								</tr>
+								<tr ng-repeat="maxP in maxProducts">
+									<td>{{maxP.Nombre}}</td>
+									<td>{{maxP.Costo}}</td>
+									<td>{{maxP.Precio}}</td>
+									<td>{{maxP.Condicion_Venta}}</td>
+									<td>{{maxP.CantidadVentas}}</td>
+									<td>{{maxP.TotalVentas}}</td>
+								</tr>
+					  		</table>
+				  		</div>
+				  	</div>
 				  	<div class="col col-md-12 col-lg-12 col-xl-12">
 				  		<canvas id="mylineGraph"></canvas>
 				  	</div>

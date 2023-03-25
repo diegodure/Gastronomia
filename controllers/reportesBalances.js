@@ -25,9 +25,10 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
 
 .controller("ReportesBalancesCtrl", function ($scope, $http, flash) {
 
-    //	$scope.calendar = function (date) {
-	//	$scope.fecha = date;
-	//};
+  angular.element(document).ready(function () {
+
+      $scope.createReport(date1, date2);
+  });
 
 	$scope.labels = ["Compras", "Ventas", "Ganancias"];
   	$scope.data = [];
@@ -89,6 +90,17 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
       flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
     }else{
       angular.element($("#spinerContainer")).css("display", "block");
+      $http.post("../models/maxProducts.php", fechas)
+      .success(function(data){
+        if(data == "error"){
+            $scope.msgTitle = 'Error';
+              $scope.msgBody  = 'Ha ocurrido un error!';
+              $scope.msgType  = 'error';
+            flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+        }else{
+            $scope.maxProducts = data;
+        }
+      });
       $http.post('../models/selectVenta.php', fechas).success(function (data) {
         $scope.ventas = data;
         var num = 0;
