@@ -3,15 +3,17 @@
 	$idCliente = $data->{"idCliente"};
 	$idTable = $data->{"idTable"};
 	$total = $data->{"total"};
+	$estado = $data->{"estado"};
+	$tableState = $data->{"tableState"};
 	//echo($id);
 
 	include("../conect.php");
 
-    $sql = "insert into ventas (idVentas, Fecha, Total, Clientes_idClientes, Mesas_idMesas, Estado) values (null, CURDATE(), '$total', '$idCliente', '$idTable', 0)";
+    $sql = "insert into ventas (idVentas, Fecha, Total, Clientes_idClientes, Mesas_idMesas, Estado) values (null, CURDATE(), '$total', '$idCliente', '$idTable', $estado)";
 
     $results = $con->query($sql);
 
-    $sql2 = "update mesas set Active=1 where idMesas='$idTable'";
+    $sql2 = "update mesas set Active='$tableState' where idMesas='$idTable'";
     $result2 = $con->query($sql2);
 
 	if(!$results && !$result2){ 

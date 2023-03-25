@@ -441,47 +441,90 @@ angular.module('ventas',['angularModalService'])
 			model = {
 				total: $scope.totalOrder,
 				idCliente: $scope.cliente.id,
-				idTable: mesa.idMesas
+				idTable: mesa.idMesas,
+				estado:0,
+				tableState:1
 			};
-			angular.element($("#spinerContainer")).css("display", "block");
-			$http.post("../models/insertFacturas.php", model)
-			.success(function(res){
-				if(res != "error"){
-					$http.post("../models/detFactura.php", $scope.detailOrder)
-					.success(function (res) {
-						angular.element($("#spinerContainer")).css("display", "none");
-						if(res == "error"){
-							$scope.msgTitle = 'Error';
-					    	$scope.msgBody  = 'Ha ocurrido un error!';
-					    	$scope.msgType  = 'error';
-					 		flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
-						}else{
-							// $scope.hideModalToSell();
-						 	close(true);
-							$scope.msgTitle = 'Exitoso';
-					    $scope.msgBody  = res;
-					    $scope.msgType  = 'success';
-						 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
-						}
-					});	
-				}
-			});
+			$scope.executeCreateOrder(model);
 		}else{
 			$scope.executeUpdateOrder(0);
 		}
 	}
 
+	$scope.executeCreateOrder = function(model){
+		angular.element($("#spinerContainer")).css("display", "block");
+		$http.post("../models/insertFacturas.php", model)
+		.success(function(res){
+			if(res != "error"){
+				$http.post("../models/detFactura.php", $scope.detailOrder)
+				.success(function (res) {
+					angular.element($("#spinerContainer")).css("display", "none");
+					if(res == "error"){
+						$scope.msgTitle = 'Error';
+				    	$scope.msgBody  = 'Ha ocurrido un error!';
+				    	$scope.msgType  = 'error';
+				 		flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+					}else{
+						// $scope.hideModalToSell();
+					 	close(true);
+						$scope.msgTitle = 'Exitoso';
+				    $scope.msgBody  = res;
+				    $scope.msgType  = 'success';
+					 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+					}
+				});	
+			}
+		});
+	}
+
 	$scope.executeUpdateOrder = function(state){
 		model = {
+			total: $scope.totalOrder,
+			estado: state,
+			idCliente: $scope.cliente.id,
+			idTable: mesa.idMesas,
+			idVenta: $scope.idVenta,
+			detail: $scope.detailOrder
+		};
+		angular.element($("#spinerContainer")).css("display", "block");
+		$http.post("../models/updateOrder.php", model)
+		.success(function(res){
+			if(res == "error"){
+				$scope.msgTitle = 'Error';
+		    $scope.msgBody  = 'Ha ocurrido un error!';
+		    $scope.msgType  = 'error';
+		 		flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+			}else{
+				// $scope.hideModalToSell();
+			 	close(true);
+				$scope.msgTitle = 'Exitoso';
+		    $scope.msgBody  = res;
+		    $scope.msgType  = 'success';
+			 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+			}
+		});
+	}
+
+	$scope.closeTable = function(){
+		if($scope.showConfirmButton && (mesa.Active == 1 || mesa.Active == "1")){
+			$scope.executeUpdateOrder(1);
+		}else if($scope.showConfirmButton && (mesa.Active == 0 || mesa.Active == "0")){
+			model = {
 				total: $scope.totalOrder,
-				estado: state,
 				idCliente: $scope.cliente.id,
 				idTable: mesa.idMesas,
+				estado:1,
+				tableState:0
+			};
+			$scope.executeCreateOrder(model);
+		}else{
+			model = {
+				estado: 1,
 				idVenta: $scope.idVenta,
-				detail: $scope.detailOrder
+				idTable: mesa.idMesas,
 			};
 			angular.element($("#spinerContainer")).css("display", "block");
-			$http.post("../models/updateOrder.php", model)
+			$http.post("../models/closeOrder.php", model)
 			.success(function(res){
 				if(res == "error"){
 					$scope.msgTitle = 'Error';
@@ -497,18 +540,6 @@ angular.module('ventas',['angularModalService'])
 				 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
 				}
 			});
-	}
-
-	$scope.closeTable = function(){
-		console.log(mesa.Active);
-		console.log($scope.showConfirmButton);
-		//falta agregar condicion cuando es la primera vez en cargar la orden
-		if($scope.showConfirmButton && (mesa.Active == 1 || mesa.Active == "1")){
-			$scope.executeUpdateOrder(1);
-		}else if($scope.showConfirmButton && (mesa.Active == 0 || mesa.Active == "0")){
-			//insertar los detalles, el total y cerrar el estado de la venta
-		}else{
-			//actualizar el estado de la venta
 		}
 	}
 
