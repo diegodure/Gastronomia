@@ -197,7 +197,7 @@ angular.module('compras',['angularModalService'])
 		var proveedor = {
 			nombre: proveedor.Nombre,
 			apellido: proveedor.Apellido,
-			user: proveedor.Empresa,
+			info: proveedor.Informacion,
 			id: proveedor.idProveedores
 		};
 	
@@ -213,7 +213,7 @@ angular.module('compras',['angularModalService'])
 
 	//La parte del select donde mostramos los datos en la tabla
 	angular.element($("#spinerContainer")).css("display", "block");
-	$http.get('../models/selectProductos.php').success(function(data){
+	$http.get('../models/selectProductosCompra.php').success(function(data){
 		angular.element($("#spinerContainer")).css("display", "none");
 		if(data == "error"){
 				$scope.productos = [];

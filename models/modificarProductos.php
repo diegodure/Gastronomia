@@ -14,9 +14,10 @@
 		$precioPromocional = 0;
 	}
 	$precioUnitario = $data->{"precioUnitario"};
+	$typeProduct = $data->{"typeProduct"};
 	include("../conect.php");
 	
-	$sql = "update productos set Nombre='$nombre', Descripcion='$descripcion', Costo='$costo', PrecioUnitario='$precioUnitario',PrecioPromocional='$precioPromocional' where idProductos='$idP'";
+	$sql = "update productos set Nombre='$nombre', Descripcion='$descripcion', Costo='$costo', PrecioUnitario='$precioUnitario',PrecioPromocional='$precioPromocional', Product_Type_idProduct_Type='$typeProduct' where idProductos='$idP'";
 	
 	$results = $con->query($sql);
 

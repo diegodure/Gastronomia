@@ -64,7 +64,7 @@
 							<div class="form-group row">	
 								<label for="q" class="col-md-6 control-label">Info del Proveedor</label>
 								<div class="col-md-6">
-									<input type="text" class="form-control" required placeholder="Info del proveedor" ng-model="proveedor.user"  readonly>
+									<input type="text" class="form-control" required placeholder="Info del proveedor" ng-model="proveedor.info"  readonly>
 								</div>
 							</div>
 				

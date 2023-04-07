@@ -57,6 +57,17 @@
 			</div>
 			<br>
 			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Tipo Producto (*)</label>
+				<div class="col-sm-7">
+					<select name="selectTypeProduct" class="form-control" id="selectTypeProduct" ng-model="typeProduct">
+						<option value="">---Seleccionar---</option> <!-- not selected / blank option -->
+	      				<option ng-repeat="typeProduct in typeProducts" value="{{typeProduct.idProduct_Type}}">{{typeProduct.Nombre}}</option> <!-- interpolation -->
+					</select>
+				</div>
+			</div>
+			<br>
+			<br>
 		</div>
 	<div class="modal-footer">
 		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>

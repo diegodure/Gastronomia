@@ -29,6 +29,7 @@
 
     <script type="text/javascript" src="../controllers/login.js"></script>
     <script type="text/javascript" src="../controllers/clientes.js"></script>
+    <script type="text/javascript" src="../controllers/proveedores.js"></script>
     <script type="text/javascript" src="../controllers/usuarios.js"></script>
     <script type="text/javascript" src="../controllers/productos.js"></script>
     <script type="text/javascript" src="../controllers/mesas.js"></script>

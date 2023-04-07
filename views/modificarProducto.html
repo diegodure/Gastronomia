@@ -60,6 +60,17 @@
 			</div>
 			<br>
 			<br>
+			<div class="form-group">
+				<label for="nombre" class="col-sm-4 control-label">Tipo Producto</label>
+				<div class="col-sm-8">
+					<select class="form-control"
+      				ng-options="myTypeProduct.Nombre for myTypeProduct in typeProducts track by myTypeProduct.idProduct_Type"
+      				ng-model="myTypeProduct">	
+					</select>
+				</div>
+			</div>
+			<br>
+			<br>
 		</div>
 	<div class="modal-footer">
 		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>

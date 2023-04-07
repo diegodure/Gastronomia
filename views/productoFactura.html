@@ -26,10 +26,7 @@
 									<th>Código</th>
 									<th><span class="caret" style="cursor: pointer;" ng-click="ordenarPor('Nombre')"></span>Nombre/s<span class="caret" style="cursor: pointer;" ng-click="ordenarPor('-Nombre')"></span></th>
 									<th>Descripcion</th>
-									<th>Precio Minorista</th>
-									<th>Precio Mayorista</th>
-									<th>Precio Promocional</th>
-									<th>Proveedor</th>
+									<th>Precio</th>
 									<th class='text-right'>Acciones</th>
 								</tr>
 								
@@ -41,9 +38,6 @@
 									<td>{{producto.Descripcion | lowercase}}</td>
 
 									<td>{{producto.PrecioUnitario | currency:'₲'}}</td>
-									<td>{{producto.PrecioMayorista | currency:'₲'}}</td>
-									<td>{{producto.PrecioPromocional | currency:'₲'}}</td>
-									<td>{{producto.provN}}</td>
 
 									<td><span class="pull-right">
 									<a href="#" class='btn btn-default' title='Elegir producto' ng-click="elegir(producto)" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i></a> 

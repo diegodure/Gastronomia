@@ -26,8 +26,14 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
 .controller("ReportesBalancesCtrl", function ($scope, $http, flash) {
 
   angular.element(document).ready(function () {
-
-      $scope.createReport(date1, date2);
+      var actualDate = new Date();
+      var mes= actualDate.getMonth()+1;
+      var dia= actualDate.getDate();
+      var mes = (mes < 10) ? ("0" + mes) : mes;
+      var dia = (dia < 10) ? ("0" + dia) : dia;
+      var year = actualDate.getFullYear();
+      actualDate = year+"-"+mes+"-"+dia;
+      $scope.createReport(actualDate, actualDate);
   });
 
 	$scope.labels = ["Compras", "Ventas", "Ganancias"];

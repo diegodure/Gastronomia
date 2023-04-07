@@ -40,6 +40,10 @@
 					<span>{{totalOrder | currency :'₲':0}}</span> 
 				</div>
 				<div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12" style="overflow: auto;max-height: 300px;">
+					<div>
+						<input type="text" class="form-control" id="searchInputProduct" placeholder="Nombre del producto" ng-model="buscar.Nombre">
+					</div>
+					<br>
 					<div ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:buscar" class="productForOrder" id="productForOrder-{{producto.idProductos}}" ng-click="addProductToOrder(producto, $index)">
 						<div>{{producto.Nombre}}</div>
 						<div style="min-height:100px">

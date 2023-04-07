@@ -20,7 +20,14 @@
 
         <li class="" id="liClient"><a href="clientes.php"><i class='glyphicon glyphicon-user'></i> Clientes</a></li>
         <li class="" id="liMesas"><a href="mesas.php"><i class='glyphicon glyphicon-blackboard'></i> Mesas</a></li>
-        <li class="" id="liProductos"><a href="productos.php"><i class='glyphicon glyphicon-shopping-cart'></i> Productos</a></li>
+        <li class="" id="liProductos">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class='glyphicon glyphicon-shopping-cart'></i> Proveedores
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="productos.php">Productos</a></li>
+            <li><a href="proveedores.php">Proveedores</a></li>
+          </ul>
+        </li>
         <li class="" id="liCompras"><a href="compras.php"><i class='glyphicon glyphicon-barcode'></i> Compras</a></li>
         <li class="" id="liVentas"><a href="ventas.php"><i class='glyphicon glyphicon-barcode'></i> Ventas</a></li>
 		

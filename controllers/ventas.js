@@ -56,7 +56,7 @@ angular.module('ventas',['angularModalService'])
 	};
 
 	$scope.Productos = function(){
-		$http.get('../models/selectProductos.php').success(function(data){
+		$http.get('../models/selectProductosMenu.php').success(function(data){
 			if(data == "error"){
 				$scope.productos = [];
 			}else{
@@ -388,6 +388,7 @@ angular.module('ventas',['angularModalService'])
 			for(var i = 0; i < $scope.detailOrder.length; i++){
 				angular.element($("#productForOrder-"+$scope.detailOrder[i].idProductos)).css("display","none");
 			}
+			angular.element($("#searchInputProduct")).focus();
 		});
 	}else{
 		$scope.detailOrder = [];		
@@ -395,6 +396,7 @@ angular.module('ventas',['angularModalService'])
 		$scope.cliente = {id:1,nombre:"Ocasional",apellido:".",info:"XXXXXX"}
 	}
 	$scope.showConfirmButton = false;
+
 	$scope.modalUsuario = function(){
 	 	// Debes proveer un controlador y una plantilla.
 	 	ModalService.showModal({
@@ -426,12 +428,23 @@ angular.module('ventas',['angularModalService'])
 	};
 
 	$scope.addProductToOrder = function(product, index){
+		var existProductInDetailOrder = false;
+		for(var i = 0; $scope.detailOrder.length > i; i++){
+			if($scope.detailOrder[i].idProductos == product.idProductos){
+				existProductInDetailOrder = true;
+				$scope.detailOrder[i].Cantidad++; 
+			}
+		}
 		if(!$scope.showConfirmButton){
 			$scope.showConfirmButton = true;
 		}
-		product.Cantidad = 1;
-		$scope.detailOrder.push(product);
-		$scope.totalOrder = $scope.totalOrder + (product.Cantidad*product.PrecioUnitario);
+		if(!existProductInDetailOrder){
+			product.Cantidad = 1;
+			$scope.detailOrder.push(product);
+			$scope.totalOrder = $scope.totalOrder + (product.Cantidad*product.PrecioUnitario);
+		}else{
+			$scope.totalOrder = $scope.totalOrder + parseInt(product.PrecioUnitario);
+		}	
 		angular.element($("#productForOrder-"+product.idProductos+"")).css("display","none");
 	}
 

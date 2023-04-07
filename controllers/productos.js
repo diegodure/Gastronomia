@@ -117,7 +117,9 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
     			costo: producto.Costo,
     			PrecioUnitario: producto.PrecioUnitario,
     			PrecioPromocional: producto.PrecioPromocional,
-    			Imagen: producto.Imagen
+    			Imagen: producto.Imagen,
+    			idProduct_Type: producto.idProduct_Type,
+    			productType: producto.productType
   			}
 		}).then(function(modal){
 			modal.close.then(function(result){
@@ -184,7 +186,22 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 
 	//El controller del modal modificar totalmente independiente de la pagina principal (productos)
 .controller('modificarCtrl', function($scope, close, $http, idP, nombre, descripcion, costo, PrecioUnitario, 
-	PrecioPromocional, Imagen, flash){
+	PrecioPromocional, idProduct_Type, productType, Imagen, flash){
+
+	var myTypeProduct;
+	angular.element($("#spinerContainer")).css("display", "block");
+	$http.get('../models/selectTypeProduct.php').success(function(data){
+		angular.element($("#spinerContainer")).css("display", "none");
+		var modalHeader = angular.element($(".modal-header")).innerHeight();
+	 	var navbar = angular.element($(".navbar-fixed-bottom")).innerHeight();
+	 	var modalFooter = angular.element($(".modal-footer")).innerHeight();
+	  var modalBody = angular.element($(".modal-body"));
+		var contentHeight = window.outerHeight - modalHeader - modalFooter  - navbar - 250;
+		modalBody.css("maxHeight", contentHeight);
+		$scope.typeProducts = data;
+		myTypeProduct = {"idProduct_Type":idProduct_Type, "Nombre":productType};
+		$scope.myTypeProduct = myTypeProduct; 
+	});
 		
 	$scope.idP = idP;
 	$scope.nombre = nombre;
@@ -243,6 +260,7 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 			costo: $scope.costo,
 			precioPromocional: $scope.precioPromocional,
 			precioUnitario: $scope.precioUnitario,
+			typeProduct: $scope.myTypeProduct.idProduct_Type
 		};
 		if(model.nombre == undefined || model.descripcion == undefined || model.precioUnitario == undefined){
 			$scope.msgTitle = 'Atención';
@@ -293,6 +311,19 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 
 	//El controller del modal nuevo totalmente independiente de la pagina principal (productos)
 .controller('modalCtrl', function($scope, close, $http, flash){
+	$scope.getTypeProduct = function(){
+		angular.element($("#spinerContainer")).css("display", "block");
+		$http.get('../models/selectTypeProduct.php').success(function(data){
+			angular.element($("#spinerContainer")).css("display", "none");
+			var modalHeader = angular.element($(".modal-header")).innerHeight();
+		 	var navbar = angular.element($(".navbar-fixed-bottom")).innerHeight();
+		 	var modalFooter = angular.element($(".modal-footer")).innerHeight();
+		  var modalBody = angular.element($(".modal-body"));
+			var contentHeight = window.outerHeight - modalHeader - modalFooter  - navbar - 250;
+			modalBody.css("maxHeight", contentHeight);
+			$scope.typeProducts = data;
+		});
+	}
 	var fd;
 	$scope.SelectFile = function (e) {
 		
@@ -334,7 +365,8 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 			descripcion: $scope.descripcion,
 			costo: $scope.costo, 
 			precioUnitario: $scope.precioUnitario,
-			precioPromocional: $scope.precioPromocional
+			precioPromocional: $scope.precioPromocional,
+			typeProduct: $scope.typeProduct
 		};
 		if(model.nombre == undefined || model.descripcion == undefined || model.precioUnitario == undefined){
 			$scope.msgTitle = 'Atención';
@@ -383,6 +415,7 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 		}
 		
 	}
+	$scope.getTypeProduct();
 })
 
 

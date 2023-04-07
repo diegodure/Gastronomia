@@ -14,9 +14,10 @@
 		$precioPromocional = 0;
 	}
 	$precioUnitario = $data->{"precioUnitario"};
+	$typeProduct = $data->{"typeProduct"};
 	include("../conect.php");
 	
-	$sql = "insert into productos (idProductos, Nombre, Descripcion, Costo, PrecioUnitario, PrecioPromocional, Active,Imagen) values (null, '$nombre', '$descripcion', '$costo', '$precioUnitario', $precioPromocional, 0,null)";
+	$sql = "insert into productos (idProductos, Nombre, Descripcion, Costo, PrecioUnitario, PrecioPromocional, Active,Imagen,Product_Type_idProduct_Type) values (null, '$nombre', '$descripcion', '$costo', '$precioUnitario', $precioPromocional, 0,null,'$typeProduct')";
 	
 	
 	$results = $con->query($sql);
