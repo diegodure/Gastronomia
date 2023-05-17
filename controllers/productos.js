@@ -28,6 +28,9 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 	angular.element(document).ready(function () {
 
     	$scope.selectProducts(true);
+    	$scope.product = {
+    		type : ""
+    	};
 	});
 	window.onresize = function () {
          $scope.logResize();

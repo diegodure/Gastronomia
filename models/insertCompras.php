@@ -6,7 +6,7 @@
 
 	include("../conect.php");
 
-    $sql = "insert into compras (idCompras, Fecha, Total, Proveedores_idProveedores, active) values (null, CURDATE(), '$total', '$id', 0)";
+    $sql = "insert into compras (idCompra, Fecha, Total, Usuarios_idUsuarios, Proveedores_idProveedores) values (null, CURDATE(), '$total',1, '$id')";
 
     $con->query($sql);
 

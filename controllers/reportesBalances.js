@@ -34,6 +34,8 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
       var year = actualDate.getFullYear();
       actualDate = year+"-"+mes+"-"+dia;
       $scope.createReport(actualDate, actualDate);
+      $scope.date1 = actualDate;
+      $scope.date2 = actualDate;
   });
 
 	$scope.labels = ["Compras", "Ventas", "Ganancias"];
@@ -216,172 +218,144 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
             
     }
   }   
-        $scope.report = function (date1,date2) {
-            var line = document.getElementById("mylineGraph").getContext("2d");
-            var barChart = document.getElementById("barChart")
-              $scope.datos = [];
-              $scope.data = [];
-              $scope.etiquetas = [];
-              $scope.colors = ['#ff0000','#3498DB','#717984','#F1C40F'];
-              $scope.options = {legend:{display:true,position:"top"}}
-              compras = [];
-              ventas = [];
-              sumCompra, sumTotalCompra = 0;
-              sumVenta, sumTotalVenta = 0; 
-              resBalance = 0;
-              dateBackup = 0;
-              var fechas = {
-                fecha1: date1,
-                fecha2: date2
-              };
-              if (fechas.fecha1 == undefined || fechas.fecha2 == undefined) {
-                $scope.msgTitle = 'Atención';
-                $scope.msgBody  = 'Debe seleccionar el rango de fechas!';
-                $scope.msgType  = 'warning';
-                flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
-              }else{
-                angular.element($("#spinerContainer")).css("display", "block");
-                $http.post('../models/selectVenta.php', fechas).success(function (data) {
-                  $scope.ventas = data;
-                  var num = 0;
-                  var dateCompare = 0;
-                  for (var i = $scope.ventas.length - 1; i >= 0; i--) {
-                    if(dateBackup == 0){
-                      $scope.etiquetas.push($scope.ventas[i]["Fecha"]);
-                      num = parseInt($scope.ventas[i]["Total"]);
-                      sumVenta = sumVenta + num;
-                      dateBackup = $scope.ventas[i]["Fecha"];
-                    }else{
-                      if(dateBackup == $scope.ventas[i]["Fecha"]){
-                        num = parseInt($scope.ventas[i]["Total"]);
-                        sumVenta = sumVenta + num;
-                        dateBackup = $scope.ventas[i]["Fecha"];
-                      }else{
-                        ventas.push(sumVenta);
-                        $scope.etiquetas.push($scope.ventas[i]["Fecha"]);
-                        sumTotalVenta = sumTotalVenta + sumVenta;
-                        sumVenta = 0;
-                        dateBackup = $scope.ventas[i]["Fecha"];
-                        num = parseInt($scope.ventas[i]["Total"]);
-                        sumVenta = sumVenta + num;                        
-                      }
-                      if(i == 0){
-                        sumTotalVenta = sumTotalVenta + sumVenta;
-                        ventas.push(sumVenta);
-                      }
-                    }
 
-                  }
-                  
-                  ventas.reverse();
-                  ventas.push(0);
-                  
-              });
-              $http.post('../models/selectCompra.php', fechas).success(function (data) {
-                    angular.element($("#spinerContainer")).css("display", "none");
-                    $scope.compras = data;
-                    var num2 = 0;
-                    dateBackup = 0;
-                    
-                    var array = [];
-                    for (var i = 0; i < $scope.compras.length; i++) {
-                        var igual=false;
-                         for (var j = 0; j < $scope.etiquetas.length & !igual; j++) {
-                             if($scope.compras[i]['Fecha'] == $scope.etiquetas[j]) 
-                                     igual=true;
-                         }
-                        if(!igual)$scope.etiquetas.push($scope.compras[i]['Fecha']);
-                    }
-                    
-                    $scope.etiquetas.sort((a, b) => new Date(a).getTime() > new Date(b).getTime());
-                    $scope.etiquetas.reverse();
-                    for (var i = $scope.compras.length - 1; i >= 0; i--) {
-                      if(dateBackup == 0){
-                        num2 = parseInt($scope.compras[i]["Total"]);
-                        sumCompra = sumCompra + num2;
-                        dateBackup = $scope.compras[i]["Fecha"];
-                      }else{
-                        if(dateBackup == $scope.compras[i]["Fecha"]){
-                          num2 = parseInt($scope.compras[i]["Total"]);
-                          sumCompra = sumCompra + num2;
-                          dateBackup = $scope.compras[i]["Fecha"];
-                        }else{
-                          compras.push(sumCompra);
-                          sumTotalCompra = sumTotalCompra + sumCompra;
-                          sumCompra = 0;
-                          dateBackup = $scope.compras[i]["Fecha"];
-                          num2 = parseInt($scope.compras[i]["Total"]);
-                          sumCompra = sumCompra + num2;                        
-                        }
-                        if(i == 0){
-                          sumTotalCompra = sumTotalCompra + sumCompra;
-                          compras.push(sumCompra);
-                          
-                        }
-                      }
-                    }
-                    compras.reverse();
-                    compras.push(0);
-                    resBalance = sumTotalVenta - sumTotalCompra;
-                    $scope.data.push(sumTotalCompra,sumTotalVenta,resBalance);
-                    $scope.datos.push(compras,ventas);
-                    var a = $scope.etiquetas.reverse();
-              
-                var mylineGraph = new Chart(line, {
-                  type: "line",
-                  data: {
-                    labels: a/*La linea de tiempo a mostrarse en el grafico*/,
-                    datasets: [
-                      {
-                        label: "COMPRAS",
-                        data: compras,
-                        fill: false,
-                        borderColor: "rgba(245, 35, 56, .65)",
-                        lineTension: 0,
-                        pointBorderWidth: 2,
-                        borderDash: [5, 5],
-                        pointStyle: "rectRounded"
-                      },
-                      {
-                        label: "VENTAS",
-                        data: ventas,
-                        fill: false,
-                        borderColor: "rgba(55, 130, 220, .65)",
-                        backgroundColor: "rgba(55, 130, 220, 0.1)",
-                        lineTension: 0,
-                        pointBorderWidth: 2,
-                        borderDash: [5, 5],
-                        pointStyle: "rectRounded"
-                      }
-                    ]
-                  },
-                  options: {
-                    title: {
-                      display: true,
-                      text: "Gráficos de compras y ventas del "+fechas.fecha1+" al "+fechas.fecha2,
-                      fontSize: 26,
-                    },
-                    legend:{
-                      display: true,
-                      position: 'top',
-                      labels: {
-                        boxWidth:80,
-                        fontColor: 'black'
-                      }
-                    },
-                    plugins: {
-                     datalabels: {
-                       display: false
-                     }
-                    }
-                  }
-                });  
-              });
-            }
-              
+  $scope.report = function (date1,date2) {
+      var line = document.getElementById("mylineGraph").getContext("2d");
+      var barChart = document.getElementById("barChart")
+        $scope.datos = [];
+        $scope.data = [];
+        $scope.etiquetas = [];
+        $scope.colors = ['#ff0000','#3498DB','#717984','#F1C40F'];
+        $scope.options = {legend:{display:true,position:"top"}}
+        compras = [];
+        ventas = [];
+        sumCompra, sumTotalCompra = 0;
+        sumVenta, sumTotalVenta = 0; 
+        resBalance = 0;
+        dateBackup = 0;
+        var fechas = {
+          fecha1: date1,
+          fecha2: date2
         };
+        if (fechas.fecha1 == undefined || fechas.fecha2 == undefined) {
+          $scope.msgTitle = 'Atención';
+          $scope.msgBody  = 'Debe seleccionar el rango de fechas!';
+          $scope.msgType  = 'warning';
+          flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+        }else{
+          angular.element($("#spinerContainer")).css("display", "block");
+          $http.post("../models/maxProducts.php", fechas)
+          .success(function(data){
+            if(data == "error"){
+                $scope.msgTitle = 'Error';
+                  $scope.msgBody  = 'Ha ocurrido un error!';
+                  $scope.msgType  = 'error';
+                flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
+            }else{
+                $scope.maxProducts = data;
+            }
+          });
+          $http.post('../models/selectVentasCompras.php', fechas).success(function (data) {
+            angular.element($("#spinerContainer")).css("display", "none");
+            var num = 0;
+            var dateCompare = 0;
+            console.log(data)
+            var lengthVentas = data.length-1
+            $scope.compras = data[lengthVentas];
+            $scope.ventas = data;
+            $scope.toalVentas = [];
+            $scope.toalCompras = [];                  for(var i = 0; i < $scope.ventas.length-1; i++){
+              $scope.etiquetas.push($scope.ventas[i]["Fecha"]);
+              num = parseInt($scope.ventas[i]["totalVentas"]);
+              $scope.toalVentas.push(num);
+              sumVenta = sumVenta + num;
+            }
+            for(var i = 0; i < $scope.compras.length; i++){
+              var igual=false;
+              for (var j = 0; j < $scope.etiquetas.length & !igual; j++) {
+                if($scope.compras[i]['Fecha'] == $scope.etiquetas[j]){
+                  igual=true;
+                }
+              }
+              if(!igual){
+                $scope.etiquetas.push($scope.compras[i]['Fecha']); 
+                num = parseInt($scope.compras[i]["totalCompras"]);
+                $scope.toalCompras.push(num);
+                sumCompra = sumVenta + num;
+              }else{
+                num = parseInt($scope.compras[i]["totalCompras"]);
+                $scope.toalCompras.push(num);
+                sumCompra = sumVenta + num;
+              }
+            }
+            console.log($scope.toalVentas);
+            console.log($scope.toalCompras);
+            console.log($scope.etiquetas);
 
-    });
+            resBalance = sumVenta - sumCompra;
+            $scope.data.push(sumCompra,sumVenta,resBalance);
+            $scope.datos.push($scope.toalCompras,$scope.toalVentas);
+            var a = $scope.etiquetas;
+            $scope.toalCompras.push(0);
+            $scope.toalVentas.push(0);
+        
+            var mylineGraph = new Chart(line, {
+              type: "line",
+              data: {
+                labels: a/*La linea de tiempo a mostrarse en el grafico*/,
+                datasets: [
+                  {
+                    label: "COMPRAS",
+                    data: $scope.toalCompras,
+                    fill: false,
+                    borderColor: "rgba(245, 35, 56, .65)",
+                    lineTension: 0,
+                    pointBorderWidth: 2,
+                    borderDash: [5, 5],
+                    pointStyle: "rectRounded"
+                  },
+                  {
+                    label: "VENTAS",
+                    data: $scope.toalVentas,
+                    fill: false,
+                    borderColor: "rgba(55, 130, 220, .65)",
+                    backgroundColor: "rgba(55, 130, 220, 0.1)",
+                    lineTension: 0,
+                    pointBorderWidth: 2,
+                    borderDash: [5, 5],
+                    pointStyle: "rectRounded"
+                  }
+                ]
+              },
+              options: {
+                title: {
+                  display: true,
+                  text: "Gráficos de compras y ventas del "+fechas.fecha1+" al "+fechas.fecha2,
+                  fontSize: 26,
+                },
+                legend:{
+                  display: true,
+                  position: 'top',
+                  labels: {
+                    boxWidth:80,
+                    fontColor: 'black'
+                  }
+                },
+                plugins: {
+                 datalabels: {
+                   display: false
+                 }
+                }
+              }
+            });
+
+
+          });
+      }
+        
+  };
+
+});
 
 
 

@@ -51,18 +51,6 @@
 			</div>
 			<br>
 			<br>
-			<div class="form-group">
-				<label for="nombre" class="col-sm-4 control-label">Sucursal</label>
-				<div class="col-sm-8">
-					<select name="selectSucursal" class="form-control" id="selectSucursal" ng-model="sucursal">
-						<option value="">---Seleccionar---</option> <!-- not selected / blank option -->
-	      				<option ng-repeat="sucursal in sucursales" value="{{sucursal.idSucursal}}">{{sucursal.Nombre}}</option> <!-- interpolation -->
-					</select>
-				</div>
-				
-			</div>
-			<br>
-			<br>
 		</div>
 	<div class="modal-footer">
 		<button class="btn btn-default" ng-click="cerrarModal()">Cerrar</button>

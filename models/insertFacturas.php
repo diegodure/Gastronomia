@@ -9,7 +9,7 @@
 
 	include("../conect.php");
 
-    $sql = "insert into ventas (idVentas, Fecha, Total, Clientes_idClientes, Mesas_idMesas, Estado) values (null, CURDATE(), '$total', '$idCliente', '$idTable', $estado)";
+    $sql = "insert into ventas (idVentas, Fecha, Total, Clientes_idClientes, Mesas_idMesas, Estado) values (null, CURDATE(), '$total', '$idCliente', '$idTable', '$estado')";
 
     $results = $con->query($sql);
 

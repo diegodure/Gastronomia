@@ -23,7 +23,6 @@
 							<tr ng-repeat="dO in detailOrder">
 								<td>
 									<input type="number" number-converter ng-model="dO.Cantidad" ng-change="updateAmountOder(true)" style="width:30%" >
-									{{parseInt(dO.Cantidad)}}
 								</td>
 								<td>{{dO.Nombre}}</td>
 								<td>{{dO.PrecioUnitario | currency :'₲':0}}</td>

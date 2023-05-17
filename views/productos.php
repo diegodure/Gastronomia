@@ -38,9 +38,9 @@
 									<input type="text" class="form-control" id="q" placeholder="Nombre del producto" ng-model="buscar.$">
 								</div>
 								<div class="col-md-3">
-									<button type="button" class="btn btn-default">
-									<span class="glyphicon glyphicon-search"></span> Buscar</button>
-									<span></span>
+									<label>Ingrediente<input type="radio" ng-model="product.type" value="ingrediente"></label>
+									<label>menu<input type="radio" ng-model="product.type" value="menu"></label>
+									<label>Todos<input type="radio" ng-model="product.type" value=""></label>
 								</div>
 							
 							</div>
@@ -57,10 +57,11 @@
 									<th>Costo</th>
 									<th>Precio Venta</th>
 									<th>Precio Promocional</th>
+									<th>Tipo</th>
 									<th class='text-right'>Acciones</th>
 								</tr>
 								
-								<tr ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:buscar:strict">
+								<tr ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:buscar:strict | filter:{productType:product.type}">
 									<td>{{producto.idProductos}}</td>
 									<td>
 										{{producto.Nombre}}
@@ -69,6 +70,7 @@
 									<td>{{producto.Costo | currency :'₲':0}}</td>
 									<td>{{producto.PrecioUnitario | currency :'₲':0}}</td>
 									<td>{{producto.PrecioPromocional | currency :'₲':0}}</td>
+									<td>{{producto.productType}}</td>
 
 									<td><span class="pull-right">
 									<a href="#" class='btn btn-default' title='Editar producto' ng-click="modificar(producto)" data-toggle="modal"><i class="glyphicon glyphicon-edit"></i></a> 

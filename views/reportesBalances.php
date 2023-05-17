@@ -64,7 +64,7 @@
             		</div>
 
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-					<button type='button' class="btn btn-info" ng-click="createReport(date1,date2)"><span class="glyphicon glyphicon-plus"></span> Buscar</button>
+					<button type='button' class="btn btn-info" ng-click="report(date1,date2)"><span class="glyphicon glyphicon-plus"></span> Buscar</button>
 					<button type='button' ng-show="etiquetas.length > 0" class="btn btn-info" ng-click="downloadReport()"><span class="glyphicon glyphicon-download-alt"></span> Descargar</button>
 
 					</div>

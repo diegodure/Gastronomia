@@ -56,19 +56,17 @@
 									<th><span class="caret" style="cursor: pointer;" ng-click="ordenarPor('Nombre')"></span>Nombre/s<span class="caret" style="cursor: pointer;" ng-click="ordenarPor('-Nombre')"></span></th>
 									<th>Apellido</th>
 									<th>Rol</th>
-									<th>Sucursal</th>
 									<th class='text-right'>Acciones</th>
 								</tr>
 								
 								<tr ng-repeat="usuario in usuarios | orderBy:ordenSeleccionado | filter:buscar">
-									<td>{{usuario.idUser}}</td>
-									<td>{{usuario.nombre}}</td>
+									<td>{{usuario.idUsuarios}}</td>
+									<td>{{usuario.Nombre}}</td>
 							
 									<!-- Filtro lowercase para letras en minusculas -->
-									<td>{{usuario.apellido | lowercase}}</td>
+									<td>{{usuario.Apellido | lowercase}}</td>
 							
 									<td>{{usuario.Rol}}</td>
-									<td>{{usuario.Sucursal}}</td>
 
 									<td><span class="pull-right">
 									<a href="#" class='btn btn-default' title='Editar usuario' ng-click="modificar(usuario)" data-toggle="modal"><i class="glyphicon glyphicon-edit"></i></a> 
