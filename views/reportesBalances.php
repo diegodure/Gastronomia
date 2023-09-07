@@ -79,6 +79,7 @@
 									<th>Nombre</th>
 									<th>Costo Producto</th>
 									<th>Precio de Venta</th>
+									<th>Porcentaje de ganancia</th>
 									<th>Tipo de Venta</th>
 									<th>Cantidad de Ventas</th>
 									<th>Total de Ventas</th>
@@ -87,6 +88,7 @@
 									<td>{{maxP.Nombre}}</td>
 									<td>{{maxP.Costo}}</td>
 									<td>{{maxP.Precio}}</td>
+									<td>{{((maxP.Precio-maxP.Costo)/maxP.Precio)*100}}%</td>
 									<td>{{maxP.Condicion_Venta}}</td>
 									<td>{{maxP.CantidadVentas}}</td>
 									<td>{{maxP.TotalVentas}}</td>

@@ -264,7 +264,8 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
             $scope.compras = data[lengthVentas];
             $scope.ventas = data;
             $scope.toalVentas = [];
-            $scope.toalCompras = [];                  for(var i = 0; i < $scope.ventas.length-1; i++){
+            $scope.toalCompras = [];                  
+            for(var i = 0; i < $scope.ventas.length-1; i++){
               $scope.etiquetas.push($scope.ventas[i]["Fecha"]);
               num = parseInt($scope.ventas[i]["totalVentas"]);
               $scope.toalVentas.push(num);
@@ -295,7 +296,7 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
             resBalance = sumVenta - sumCompra;
             $scope.data.push(sumCompra,sumVenta,resBalance);
             $scope.datos.push($scope.toalCompras,$scope.toalVentas);
-            var a = $scope.etiquetas;
+            var a = $scope.etiquetas.reverse();
             $scope.toalCompras.push(0);
             $scope.toalVentas.push(0);
         
@@ -316,7 +317,7 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
                   },
                   {
                     label: "VENTAS",
-                    data: $scope.toalVentas,
+                    data: $scope.toalVentas.reverse(),
                     fill: false,
                     borderColor: "rgba(55, 130, 220, .65)",
                     backgroundColor: "rgba(55, 130, 220, 0.1)",
