@@ -49,7 +49,7 @@ angular.module('reportesCompras',['720kb.datepicker'])
         $scope.showPurchase = function (compra) {
           
           var compra = {
-            idVenta: compra.idCompras,
+            idCompra: compra.idCompra,
             fecha: compra.Fecha
           };
           angular.element($("#spinerContainer")).css("display", "block");

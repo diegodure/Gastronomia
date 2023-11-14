@@ -44,25 +44,27 @@
 				
 				<h4><i class='glyphicon glyphicon-plus'></i> Nueva Venta </h4>
 			</div>
-					<div class="panel-body row">
-						<div ng-repeat="mesa in mesas | orderBy:ordenSeleccionado | filter:buscar" class="col col-xl-3 col-lg-4 col-md-4 col-sm-6" ng-click="showOrder(mesa)">
-							<div ng-if="mesa.Active == 0" class="containerTablesActive">
-								<div style="font-weight:bold">
-									{{mesa.Nombre}}
+					<div class="panel-body row" style="overflow:auto">
+						<div ng-repeat="mesa in mesas | orderBy:ordenSeleccionado | filter:buscar" class="col col-xl-3 col-lg-4 col-md-4 col-sm-6" ng-click="showOrder(mesa)" style="">
+							<div style="padding:5px">
+								<div ng-if="mesa.Active == 0" class="containerTablesActive">
+									<div style="font-weight:bold">
+										{{mesa.Nombre}}
+									</div>
+									<div>
+										{{mesa.Descripcion}}
+									</div>
+									<div>Disponible</div>
 								</div>
-								<div>
-									{{mesa.Descripcion}}
+								<div ng-if="mesa.Active == 1" class="containerTablesInactive">
+									<div style="font-weight:bold">
+										{{mesa.Nombre}}
+									</div>
+									<div>
+										{{mesa.Descripcion}}
+									</div>
+									<div>Ocupado</div>
 								</div>
-								<div>Disponible</div>
-							</div>
-							<div ng-if="mesa.Active == 1" class="containerTablesInactive">
-								<div style="font-weight:bold">
-									{{mesa.Nombre}}
-								</div>
-								<div>
-									{{mesa.Descripcion}}
-								</div>
-								<div>Ocupado</div>
 							</div>
 						</div>
 					</div>

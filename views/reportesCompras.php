@@ -82,7 +82,7 @@
 									<th>Ver detalle</th>
 								</tr>
 								<tr ng-repeat="compra in compras">
-									<td>{{compra.idCompras}}</td>
+									<td>{{compra.idCompra}}</td>
 									<td>{{compra.Fecha}}</td>
 									<td>{{compra.Total | currency :'₲':0}}</td>
 									<td><span class="pull-left"> 
@@ -103,7 +103,7 @@
 									
 								</tr>
 								<tr ng-repeat="detCom in detCompra">
-									<td>{{detCom.Compras_idCompras}}</td>
+									<td>{{detCom.Compras_idCompra}}</td>
 									<td>{{detCom.Nombre}}</td>
 									<td>{{detCom.Precio | currency :'₲':0}}</td>
 									<td>{{detCom.Cantidad}}</td>

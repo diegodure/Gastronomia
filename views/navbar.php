@@ -21,7 +21,7 @@
         <li class="" id="liClient"><a href="clientes.php"><i class='glyphicon glyphicon-user'></i> Clientes</a></li>
         <li class="" id="liMesas"><a href="mesas.php"><i class='glyphicon glyphicon-blackboard'></i> Mesas</a></li>
         <li class="" id="liProductos">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class='glyphicon glyphicon-shopping-cart'></i> Proveedores
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class='glyphicon glyphicon-shopping-cart'></i> Productos
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="productos.php">Productos</a></li>

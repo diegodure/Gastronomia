@@ -1,11 +1,11 @@
 <?php
 
     $data = json_decode(file_get_contents("php://input"));
-    $idVenta = $data->{"idVenta"};
+    $idCompra = $data->{"idCompra"};
     $fecha = $data->{"fecha"};
     include("../conect.php");
 
-    $sql ="select det_compras.Compras_idCompras, productos.Nombre, det_compras.Precio, det_compras.Cantidad from det_compras inner join productos on det_compras.Productos_idProductos=productos.idProductos where Compras_idCompras = '$idVenta'";
+    $sql ="select det_compra.Compras_idCompra, productos.Nombre, det_compra.Precio, det_compra.Cantidad from det_compra inner join productos on det_compra.Productos_idProductos=productos.idProductos where Compras_idCompra = '$idCompra'";
 
     $results = $con->query($sql);
 

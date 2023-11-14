@@ -38,9 +38,9 @@
 									<input type="text" class="form-control" id="q" placeholder="Nombre del producto" ng-model="buscar.$">
 								</div>
 								<div class="col-md-3">
-									<label>Ingrediente<input type="radio" ng-model="product.type" value="ingrediente"></label>
-									<label>menu<input type="radio" ng-model="product.type" value="menu"></label>
-									<label>Todos<input type="radio" ng-model="product.type" value=""></label>
+									<label><input type="radio" ng-model="product.type" value="ingrediente">Ingrediente</label>
+									<label><input type="radio" ng-model="product.type" value="menu">menu</label>
+									<label><input type="radio" ng-model="product.type" value="">Todos</label>
 								</div>
 							
 							</div>

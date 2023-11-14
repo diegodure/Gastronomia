@@ -282,11 +282,11 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
                 $scope.etiquetas.push($scope.compras[i]['Fecha']); 
                 num = parseInt($scope.compras[i]["totalCompras"]);
                 $scope.toalCompras.push(num);
-                sumCompra = sumVenta + num;
+                sumCompra = sumCompra + num;
               }else{
                 num = parseInt($scope.compras[i]["totalCompras"]);
                 $scope.toalCompras.push(num);
-                sumCompra = sumVenta + num;
+                sumCompra = sumCompra + num;
               }
             }
             console.log($scope.toalVentas);
