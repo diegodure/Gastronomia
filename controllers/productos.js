@@ -371,7 +371,8 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 			precioPromocional: $scope.precioPromocional,
 			typeProduct: $scope.typeProduct
 		};
-		if(model.nombre == undefined || model.descripcion == undefined || model.precioUnitario == undefined){
+		if(model.nombre == undefined || model.descripcion == undefined 
+			|| model.precioUnitario == undefined || model.typeProduct == ""){
 			$scope.msgTitle = 'Atención';
 		  $scope.msgBody  = 'Debe completar los campos requeridos!';
 		  $scope.msgType  = 'warning';

@@ -359,7 +359,6 @@ angular.module('ventas',['angularModalService'])
       }
 
       function toView(value) {
-        console.log("toView", value);
         return parseInt(value); // convert to number
       }
 
@@ -412,11 +411,11 @@ angular.module('ventas',['angularModalService'])
 	 };
 
 	window.onkeyup = function (e) {
-		if(e.keyCode == 67 && angular.element($(".modal")).length == 0) {
+		if(e.keyCode == 67 && angular.element($(".modal2")).length == 0) {
 			$scope.modalUsuario();
-		}else if(e.keyCode == 80 && angular.element($(".modal")).length == 0){
+		}else if(e.keyCode == 80 && angular.element($(".modal2")).length == 0){
 			$scope.modalProducto();
-		}else if(e.keyCode == 82 && angular.element($(".modal")).length == 0){
+		}else if(e.keyCode == 82 && angular.element($(".modal2")).length == 0){
 			$scope.prepareToSell();
 		}else if(e.keyCode == 70 && angular.element($(".modalVentas")).css("display") == "block"){
 
@@ -481,8 +480,8 @@ angular.module('ventas',['angularModalService'])
 						// $scope.hideModalToSell();
 					 	close(true);
 						$scope.msgTitle = 'Exitoso';
-				    $scope.msgBody  = res;
-				    $scope.msgType  = 'success';
+					    $scope.msgBody  = res;
+					    $scope.msgType  = 'success';
 					 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
 					}
 				});	
@@ -570,8 +569,8 @@ angular.module('ventas',['angularModalService'])
 					// $scope.hideModalToSell();
 				 	close(true);
 					$scope.msgTitle = 'Exitoso';
-			    $scope.msgBody  = res;
-			    $scope.msgType  = 'success';
+				    $scope.msgBody  = res;
+				    $scope.msgType  = 'success';
 				 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
 				 	var row = [];
 					row.push([{text: 'CANT', style: 'tableHeader'},{text: 'PRODUCTO', style: 'tableHeader'},{text: 'DESCRIPCION', style: 'tableHeader'},{text: 'COSTO', style: 'tableHeader'},{text: 'IVA', style: 'tableHeader'}]); 
@@ -579,121 +578,121 @@ angular.module('ventas',['angularModalService'])
 						row.push([$scope.detailOrder[i].Cantidad,$scope.detailOrder[i].Nombre,$scope.detailOrder[i].Descripcion,$scope.detailOrder[i].subTotal,10]);
 					}
 					html2canvas(document.getElementById('ticketToPrint'), {
-				    onrendered: function(canvas) {
-				      var data = canvas.toDataURL();
-				      var docDefinition = {
-				      pageSize: 'A5',
-				      // pageSize: {
-						  //   width: 595.28,
-						  //   height: 'auto'
-						  // },
-				      content: [{
-								text: 'NOMBRE DEL RESTAURANTE',
-								style: 'header'
-							},{
-								text: 'RUC DEL RESTAURANTE',
-								style: 'subheader'
-							},
-							{
-								text: 'VENTAS DE COMIDA Y BEBIDAS',
-								style: 'subheader'
-							},
-							{
-								text: 'DIRRECCION DEL RESTAURANTE',
-								style: 'subheader'
-							},
-							'\n',
-							{text:[
-								{text: 'CLIENTE: ',
-								fontSize: 14,bold: true},
-								{text: ''+$scope.cliente.nombre,
-								fontSize: 14,bold: false}
-							]},
-							{text:[
-								{text: 'RUC: ',
-								fontSize: 14,bold: true},
-								{text: ''+$scope.cliente.info,
-								fontSize: 14,bold: false}
-							]},
-							{text:[
-								{text: 'COND. PAGO: ',
-								fontSize: 14,bold: true},
-								{text: 'Efectivo',
-								fontSize: 14,bold: false}
-							]},
-							{text:[
-								{text: 'FECHA EMISION: ',
-								fontSize: 14,bold: true},
-								{text: ''+$scope.currentDate,
-								fontSize: 14,bold: false},
-								{text: '        HORA: ',
-								fontSize: 14,bold: true},
-								{text: '00:00:00',
-								fontSize: 14,bold: false}
-							]},
-							'\n',
-							{
-								style: 'tableExample',
-								table: {
-									headerRows: 1,
-									body: row
+					    onrendered: function(canvas) {
+					      var data = canvas.toDataURL();
+					      var docDefinition = {
+					      pageSize: 'A5',
+					      // pageSize: {
+							  //   width: 595.28,
+							  //   height: 'auto'
+							  // },
+					      content: [{
+									text: 'NOMBRE DEL RESTAURANTE',
+									style: 'header'
+								},{
+									text: 'RUC DEL RESTAURANTE',
+									style: 'subheader'
 								},
-								layout: 'headerLineOnly'
-							},
-							{text:[
-								{text: 'TOTAL: ',
-								fontSize: 14,bold: true,alignment: 'left'},
-								{text: ''+$scope.totalOrder,
-								fontSize: 14,bold: false,alignment: 'right'}
-							]},
-							{text:[
-								{text: 'IVA: ',
-								fontSize: 14,bold: true,alignment: 'left'},
-								{text: ''+Math.round($scope.totalOrder/11),
-								fontSize: 14,bold: false,alignment: 'right'}
-							]},
-							'\n----------------------------------------------------------------------------------------------------\n',
-							{
-								text: 'GRACIAS POR SU COMPRA',
-								style: 'subheader'
-							},
-							'----------------------------------------------------------------------------------------------------\n',
-							],
-								styles: {
-									header: {
-										fontSize: 16,
-										bold: true,
-										alignment: 'center'
+								{
+									text: 'VENTAS DE COMIDA Y BEBIDAS',
+									style: 'subheader'
+								},
+								{
+									text: 'DIRRECCION DEL RESTAURANTE',
+									style: 'subheader'
+								},
+								'\n',
+								{text:[
+									{text: 'CLIENTE: ',
+									fontSize: 14,bold: true},
+									{text: ''+$scope.cliente.nombre,
+									fontSize: 14,bold: false}
+								]},
+								{text:[
+									{text: 'RUC: ',
+									fontSize: 14,bold: true},
+									{text: ''+$scope.cliente.info,
+									fontSize: 14,bold: false}
+								]},
+								{text:[
+									{text: 'COND. PAGO: ',
+									fontSize: 14,bold: true},
+									{text: 'Efectivo',
+									fontSize: 14,bold: false}
+								]},
+								{text:[
+									{text: 'FECHA EMISION: ',
+									fontSize: 14,bold: true},
+									{text: ''+$scope.currentDate,
+									fontSize: 14,bold: false},
+									{text: '        HORA: ',
+									fontSize: 14,bold: true},
+									{text: '00:00:00',
+									fontSize: 14,bold: false}
+								]},
+								'\n',
+								{
+									style: 'tableExample',
+									table: {
+										headerRows: 1,
+										body: row
 									},
-									subheader: {
-										fontSize: 14,
-										bold: true,
-										alignment: 'center'
-									},
-									normalText: {
-										fontSize: 14,
-										bold: true,
-										alignment: 'left'
-									},
-									quote: {
-										italics: true
-									},
-									small: {
-										fontSize: 8
-									},
-									tableExample: {
-										margin: [0, 5, 0, 15]
-									},
-									tableHeader: {
-										bold: true,
-										fontSize: 13,
-										color: 'black'
+									layout: 'headerLineOnly'
+								},
+								{text:[
+									{text: 'TOTAL: ',
+									fontSize: 14,bold: true,alignment: 'left'},
+									{text: ''+$scope.totalOrder,
+									fontSize: 14,bold: false,alignment: 'right'}
+								]},
+								{text:[
+									{text: 'IVA: ',
+									fontSize: 14,bold: true,alignment: 'left'},
+									{text: ''+Math.round($scope.totalOrder/11),
+									fontSize: 14,bold: false,alignment: 'right'}
+								]},
+								'\n----------------------------------------------------------------------------------------------------\n',
+								{
+									text: 'GRACIAS POR SU COMPRA',
+									style: 'subheader'
+								},
+								'----------------------------------------------------------------------------------------------------\n',
+								],
+									styles: {
+										header: {
+											fontSize: 16,
+											bold: true,
+											alignment: 'center'
+										},
+										subheader: {
+											fontSize: 14,
+											bold: true,
+											alignment: 'center'
+										},
+										normalText: {
+											fontSize: 14,
+											bold: true,
+											alignment: 'left'
+										},
+										quote: {
+											italics: true
+										},
+										small: {
+											fontSize: 8
+										},
+										tableExample: {
+											margin: [0, 5, 0, 15]
+										},
+										tableHeader: {
+											bold: true,
+											fontSize: 13,
+											color: 'black'
+										}
 									}
-								}
-				      };
-				      //pdfMake.createPdf(docDefinition).open();
-				      pdfMake.createPdf(docDefinition).open();
-				    }
+					      };
+					      //pdfMake.createPdf(docDefinition).open();
+					      pdfMake.createPdf(docDefinition).download("ticket.pdf");
+					    }
 				 	});
 				}
 			});
