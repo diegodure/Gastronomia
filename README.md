@@ -1,6 +1,6 @@
 # Stock
 
-Proyecto de control de stock, compras, ventas, balances, reportes, facturación
+Software for gastronomic establishments, made in php, angularjs, mysql, dependency management with bower and node
 
 ## Getting started
 
