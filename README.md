@@ -1,4 +1,4 @@
-# Stock
+# Software for gastronomic establishments
 
 Software for gastronomic establishments, made in php, angularjs, mysql, dependency management with bower and node
 
