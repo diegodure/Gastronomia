@@ -10,7 +10,7 @@
 
 	include("../conect.php");
 
-	$sql = "insert into mesas (idMesas, Nombre, Descripcion, Active) values (null, '$nombre', '$descripcion', 0)";
+	$sql = "insert into Mesas (idMesas, Nombre, Descripcion, Active) values (null, '$nombre', '$descripcion', 0)";
 	$results = $con->query($sql);
 
 	if(!$results){ 
