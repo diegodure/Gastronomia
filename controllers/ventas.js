@@ -30,9 +30,66 @@ angular.module('ventas',['angularModalService'])
     	};
     	$scope.Mesas();
     	$scope.Productos();
+		// $scope.deliveries = [
+		// 	{
+		// 		idVentas: 1,
+		// 		NombreCliente: 'Juan',
+		// 		ApellidoCliente: 'Pérez',
+		// 		Fecha: '2024-09-30',
+		// 		Info: '0981 123 456',
+		// 		Estado: 0, // Pendiente
+		// 		Total: 150000
+		// 	},
+		// 	{
+		// 		idVentas: 2,
+		// 		NombreCliente: 'Ana',
+		// 		ApellidoCliente: 'Gómez',
+		// 		Fecha: '2024-09-29',
+		// 		Info: '0972 987 654',
+		// 		Estado: 1, // Completado
+		// 		Total: 200000
+		// 	},
+		// 	{
+		// 		idVentas: 3,
+		// 		NombreCliente: 'Luis',
+		// 		ApellidoCliente: 'Fernández',
+		// 		Fecha: '2024-09-28',
+		// 		Info: '0961 345 678',
+		// 		Estado: 0, // Pendiente
+		// 		Total: 175000
+		// 	},
+		// 	{
+		// 		idVentas: 1,
+		// 		NombreCliente: 'Juan',
+		// 		ApellidoCliente: 'Pérez',
+		// 		Fecha: '2024-09-30',
+		// 		Info: '0981 123 456',
+		// 		Estado: 0, // Pendiente
+		// 		Total: 150000
+		// 	},
+		// 	{
+		// 		idVentas: 2,
+		// 		NombreCliente: 'Ana',
+		// 		ApellidoCliente: 'Gómez',
+		// 		Fecha: '2024-09-29',
+		// 		Info: '0972 987 654',
+		// 		Estado: 1, // Completado
+		// 		Total: 200000
+		// 	},
+		// 	{
+		// 		idVentas: 3,
+		// 		NombreCliente: 'Luis',
+		// 		ApellidoCliente: 'Fernández',
+		// 		Fecha: '2024-09-28',
+		// 		Info: '0961 345 678',
+		// 		Estado: 0, // Pendiente
+		// 		Total: 175000
+		// 	}
+		// ];
 	});
 
 	$scope.Mesas = function(){
+		angular.element($("#saleType").val("mesa"))
 		angular.element($("#spinerContainer")).css("display", "block");
 		$http.get('../models/selectMesas.php').success(function(data){
 			angular.element($("#spinerContainer")).css("display", "none");
@@ -44,10 +101,10 @@ angular.module('ventas',['angularModalService'])
 					var topbar = angular.element($(".navbar-default")).innerHeight();
 		 			var navbar = angular.element($(".navbar-fixed-bottom")).innerHeight();
 		 			var formGroup = angular.element($(".form-group")).innerHeight();
-	        var panel = angular.element($(".panel-body"));
+	        		var panel = angular.element($(".panel-body"));
 					var heightTable = window.outerHeight - topbar - navbar  - formGroup - 250;
 					panel.css("maxHeight", heightTable);
-			
+					panel.css("overflow", "auto");
 				}
 			
 			}
@@ -65,16 +122,53 @@ angular.module('ventas',['angularModalService'])
 		});
 	}
 
+	$scope.selectVentas = function(deliveryPickup){
+		if(!deliveryPickup){
+			deliveryPickup = angular.element($("#saleType")).val()
+		}else{
+			angular.element($("#saleType").val(deliveryPickup))
+		}
+		
+
+		var model = {
+			tipoPedido: deliveryPickup // 'delivery' o 'pickup'
+		};
+		angular.element($("#spinerContainer")).css("display", "block");
+
+		$http.post('../models/getOrders.php', model).success(function(data) {
+			angular.element($("#spinerContainer")).css("display", "none");
+			console.log(data)
+			// Verificamos que haya datos de ventas
+			if (data.length > 0) {
+				if (deliveryPickup === "delivery") {
+					$scope.deliveries = data;  // Asignar los datos a deliveries si es delivery
+				} else if (deliveryPickup === "pickup") {
+					$scope.pickups = data;  // Asignar los datos a pickups si es pickup
+				}
+			} else {
+				console.log("No se encontraron ventas de tipo " + deliveryPickup);
+			}
+		}).error(function(err) {
+			angular.element($("#spinerContainer")).css("display", "none");
+			console.error("Error al obtener las ventas:", err);
+		});
+	}
+
 	$scope.showOrder = function(mesa){
+		mesa.TipoPedido = angular.element($("#saleType")).val()
 		var productos = $scope.productos;
 		ModalService.showModal({
 	 		templateUrl: "ordenMesa.html",
-      controller: "ordenMesaCtrl",
+      		controller: "ordenMesaCtrl",
 			inputs: {mesa,productos}
 	 	}).then(function(modal){
 	 		modal.close.then(function(result){
 	 			if(result){
-	 				$scope.Mesas();
+					if(angular.element($("#saleType")).val() == 'mesa'){
+						$scope.Mesas();
+					}else{
+						$scope.selectVentas();
+					}
 	 			}
 	 		})
 	 	})
@@ -369,7 +463,6 @@ angular.module('ventas',['angularModalService'])
 })
 
 .controller('ordenMesaCtrl', function($scope, close, $http, flash,mesa,productos,ModalService){
-	
 	$scope.productos = productos;
 	if(mesa.Active == 1 || mesa.Active == "1"){
 		var model = {
@@ -389,6 +482,29 @@ angular.module('ventas',['angularModalService'])
 			}
 			angular.element($("#searchInputProduct")).focus();
 		});
+	}else if(mesa.TipoPedido === "delivery" || mesa.TipoPedido === "pickup"){
+		if(mesa.idVentas){
+			var model = {
+				tipoPedido: mesa.TipoPedido,
+				idVentas: mesa.idVentas // idVentas ya que es clave en estos casos
+			}
+			angular.element($("#spinerContainer")).css("display", "block");
+			$http.post('../models/getOrderResume.php', model).success(function(data) {
+				angular.element($("#spinerContainer")).css("display", "none");
+				$scope.cliente = { id: data[0].idClientes, nombre: data[0].Nombre, apellido: data[0].Apellido, info: data[0].Info };
+				$scope.idVenta = data[0].idVentas;
+				$scope.detailOrder = data[1];
+				$scope.updateAmountOder(false);
+				for (var i = 0; i < $scope.detailOrder.length; i++) {
+					angular.element($("#productForOrder-" + $scope.detailOrder[i].idProductos)).css("display", "none");
+				}
+				angular.element($("#searchInputProduct")).focus();
+			});
+		}else{
+			$scope.detailOrder = [];		
+			$scope.totalOrder = 0;
+			$scope.cliente = {id:1,nombre:"Ocasional",apellido:".",info:"XXXXXX"}
+		}
 	}else{
 		$scope.detailOrder = [];		
 		$scope.totalOrder = 0;
@@ -449,15 +565,20 @@ angular.module('ventas',['angularModalService'])
 
 	$scope.saveOrden = function(){
 		var model = {};
-		if(mesa.Active == 0 || mesa.Active == "0"){
+		if(mesa.TipoPedido != 'mesa' || (mesa.Active == 0 || mesa.Active == "0")){
 			model = {
 				total: $scope.totalOrder,
 				idCliente: $scope.cliente.id,
 				idTable: mesa.idMesas,
 				estado:0,
-				tableState:1
+				tableState:1,
+				tipoPedido: angular.element($("#saleType")).val()
 			};
-			$scope.executeCreateOrder(model);
+			if(mesa.idVentas){
+				$scope.executeUpdateOrder(0);
+			}else{
+				$scope.executeCreateOrder(model);
+			}
 		}else{
 			$scope.executeUpdateOrder(0);
 		}
@@ -496,7 +617,8 @@ angular.module('ventas',['angularModalService'])
 			idCliente: $scope.cliente.id,
 			idTable: mesa.idMesas,
 			idVenta: $scope.idVenta,
-			detail: $scope.detailOrder
+			detail: $scope.detailOrder,
+			tipoPedido:angular.element($("#saleType")).val()
 		};
 		var date = new Date(); 
 		var mes = date.getMonth()+1; 
@@ -506,7 +628,7 @@ angular.module('ventas',['angularModalService'])
 		dia='0'+dia;
 		if(mes<10)
 		mes='0'+mes
-    $scope.currentDate = dia+"/"+mes+"/"+year;
+    	$scope.currentDate = dia+"/"+mes+"/"+year;
 		console.log(model);
 		console.log($scope.cliente);
 		console.log(mesa);
@@ -515,15 +637,15 @@ angular.module('ventas',['angularModalService'])
 		.success(function(res){
 			if(res == "error"){
 				$scope.msgTitle = 'Error';
-		    $scope.msgBody  = 'Ha ocurrido un error!';
-		    $scope.msgType  = 'error';
+		    	$scope.msgBody  = 'Ha ocurrido un error!';
+		    	$scope.msgType  = 'error';
 		 		flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
 			}else{
 				// $scope.hideModalToSell();
 			 	close(true);
 				$scope.msgTitle = 'Exitoso';
-		    $scope.msgBody  = res;
-		    $scope.msgType  = 'success';
+		    	$scope.msgBody  = res;
+		    	$scope.msgType  = 'success';
 			 	flash.pop({title: $scope.msgTitle, body: $scope.msgBody, type: $scope.msgType});
 			}
 		});
@@ -538,7 +660,8 @@ angular.module('ventas',['angularModalService'])
 				idCliente: $scope.cliente.id,
 				idTable: mesa.idMesas,
 				estado:1,
-				tableState:0
+				tableState:0,
+				tipoPedido:angular.element($("#saleType")).val()
 			};
 			$scope.executeCreateOrder(model);
 		}else{
@@ -550,11 +673,12 @@ angular.module('ventas',['angularModalService'])
 			dia='0'+dia;
 			if(mes<10)
 			mes='0'+mes
-	    $scope.currentDate = dia+"/"+mes+"/"+year;
+	    	$scope.currentDate = dia+"/"+mes+"/"+year;
 			model = {
 				estado: 1,
 				idVenta: $scope.idVenta,
 				idTable: mesa.idMesas,
+				tipoPedido:angular.element($("#saleType")).val()
 			};
 			
 			angular.element($("#spinerContainer")).css("display", "block");

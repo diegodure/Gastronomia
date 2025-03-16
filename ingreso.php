@@ -27,10 +27,10 @@ session_start();
         }
 
         // Prepara la consulta SQL usando prepared statements
-        $stmt = $con->prepare("SELECT Usuarios.User, Usuarios.Pass, Usuarios.Nombres, Usuarios.Apellidos, 
-            Usuarios.idUsuario, Usuarios.empresa_id, Roles.Nombre as rol 
-            FROM Usuarios 
-            INNER JOIN Roles ON Usuarios.Roles_idRol = Roles.idRol 
+        $stmt = $con->prepare("SELECT usuarios.User, usuarios.Pass, usuarios.Nombre, usuarios.Apellido, 
+            usuarios.idUsuarios, usuarios.empresa_id, roles.Nombre as rol 
+            FROM usuarios 
+            INNER JOIN roles ON usuarios.Roles_idRoles = roles.idRoles 
             WHERE User = ? AND Pass = ?");
         
         $stmt->bind_param("ss", $usuario, $pass);
@@ -41,7 +41,7 @@ session_start();
         if ($result->num_rows > 0) {
             $row = $result->fetch_array();
             $_SESSION["user"] = $row['rol'];
-            $_SESSION["idUser"] = $row['idUsuario'];
+            $_SESSION["idUser"] = $row['idUsuarios'];
             $_SESSION["idService"] = $row['empresa_id'];
             echo '<div class="logoLogin"><i class="fas fa-spinner"></i></div>';
             if($_SESSION["user"] == 'Mesero') {

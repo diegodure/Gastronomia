@@ -4,6 +4,7 @@
     $estado = $data->{"estado"};
     $idVenta = $data->{"idVenta"};
     $idTable = $data->{"idTable"};
+    $tipoPedido = $data->{"tipoPedido"};
 
     include("../conect.php");
 
@@ -12,14 +13,20 @@
 
     if(!$result){
         echo "error";
-    }else{
+        $con->close();
+        exit();
+    }else if($tipoPedido == "mesa"){
         $sql2 = "update mesas set Active=0 where idMesas='$idTable'";
         $result2 = $con->query($sql2);
         if(!$result2){
             echo "error";
+            $con->close();
+            exit();
         }else{
             echo "Orden cerrada correctamente!";
         }
+    }else{
+        echo "Orden cerrada correctamente!";
     }
 
     $con->close();

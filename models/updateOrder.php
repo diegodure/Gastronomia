@@ -6,6 +6,7 @@
     $idCliente = $data->{"idCliente"};
     $idTable = $data->{"idTable"};
     $idVenta = $data->{"idVenta"};
+    $tipoPedido = $data->{"tipoPedido"};  // 'mesa', 'delivery', 'pickup'
 
     $detail = array($data->{"detail"});
 
@@ -16,6 +17,8 @@
 
     if(!$result){
     	echo "error al eliminar el detalle de la venta";
+        $con->close();
+        exit();
     }else{
     	foreach ($detail as $valor){
 	    	foreach($valor as $v){
@@ -32,15 +35,24 @@
     }
 
     if(!$result2){
-    	echo "error";
+    	echo "Error al insertar el detalle de la venta";
+        $con->close();
+        exit();
     }else{
     	$sql3 = "update ventas set Total='$total', Estado='$estado' where idVentas='$idVentas'";
     	$result3 = $con->query($sql3);
     }
 
-    if($estado == 1){
-        $sql4 = "update mesas set Active=0 where idMesas='$idTable'";
-        $result4 = $con->query($sql4); 
+    if ($tipoPedido == "mesa" && $estado == 1) {
+        $idTable = $data->{"idTable"};
+        $sql4 = "UPDATE mesas SET Active=0 WHERE idMesas='$idTable'";
+        $result4 = $con->query($sql4);
+
+        if (!$result4) {
+            echo "Error al cerrar la mesa";
+            $con->close();
+            exit();
+        }
     }
 
     if(!$result3){

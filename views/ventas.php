@@ -10,7 +10,7 @@ if (isset($_SESSION['user'])) {
 
 <?php include("head.php"); ?>
 
-<body ng-app="ventas" style="overflow-x: hidden; overflow-y: auto;">
+<body ng-app="ventas" style="overflow: hidden;">
     <?php include("navbar.php"); ?>
 
     <div class="container">
@@ -35,16 +35,17 @@ if (isset($_SESSION['user'])) {
 
             <!-- Pestañas -->
             <ul class="nav nav-tabs" role="tablist">
-                <li class="active"><a data-toggle="tab" href="#mesas">Mesas</a></li>
-                <li><a data-toggle="tab" href="#delivery">Delivery</a></li>
-                <li><a data-toggle="tab" href="#pickup">Pickup</a></li>
+                <li ng-click="Mesas()" class="active"><a data-toggle="tab" href="#mesas">Mesas</a></li>
+                <li ng-click="selectVentas('delivery')"><a data-toggle="tab" href="#delivery">Delivery</a></li>
+                <li ng-click="selectVentas('pickup')"><a data-toggle="tab" href="#pickup">Pickup</a></li>
             </ul>
 
             <div class="tab-content">
+                <input type="hidden" id="saleType">
                 <div id="mesas" class="tab-pane fade in active">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h4><i class='glyphicon glyphicon-plus'></i> Nueva Venta </h4>
+                            <h4> Mesas </h4>
                         </div>
                         <div class="panel-body row" style="overflow:auto">
                             <div ng-repeat="mesa in mesas | orderBy:ordenSeleccionado | filter:buscar" class="col col-xl-3 col-lg-4 col-md-4 col-sm-6" ng-click="showOrder(mesa)" style="">
@@ -68,11 +69,44 @@ if (isset($_SESSION['user'])) {
                 <div id="delivery" class="tab-pane fade">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h4><i class='glyphicon glyphicon-plus'></i> Delivery </h4>
+                            <h4>
+                                <i class='glyphicon glyphicon-plus' 
+                                style="cursor:pointer" ng-click="showOrder({})"></i> 
+                            Delivery </h4>
                         </div>
                         <div class="panel-body">
-                            <p style="color:black">Contenido de Delivery aquí...</p>
-                            <!-- Aquí puedes añadir tu código para mostrar deliverys -->
+                            <div class="row">
+                                <div ng-repeat="delivery in deliveries | orderBy:ordenSeleccionado | filter:buscar" class="col col-xl-4 col-lg-6 col-md-6 col-sm-12" style="margin-bottom: 15px;">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <h5><strong>{{delivery.Nombre}} {{delivery.Apellido}}</strong></h5>
+                                            <p style="color:black"><i class='glyphicon glyphicon-time'></i> Fecha: {{delivery.Fecha}}</p>
+                                            <p style="color:black"><i class='glyphicon glyphicon-earphone'></i> Contacto: {{delivery.Info}}</p>
+                                            
+                                            <!-- Estado del pedido -->
+                                            <div ng-if="delivery.Estado == 0" class="alert alert-warning">
+                                                <i class="glyphicon glyphicon-exclamation-sign"></i> Pedido pendiente
+                                            </div>
+                                            <div ng-if="delivery.Estado == 1" class="alert alert-success">
+                                                <i class="glyphicon glyphicon-ok"></i> Pedido completado
+                                            </div>
+
+                                            <!-- Botones de acciones -->
+                                            <div class="text-right">
+                                                <button class="btn btn-info btn-sm" ng-click="showOrder(delivery)">
+                                                    <i class="glyphicon glyphicon-eye-open"></i> Ver detalles
+                                                </button>
+                                                <button class="btn btn-success btn-sm" ng-click="completeOrder(delivery)">
+                                                    <i class="glyphicon glyphicon-ok"></i> Completar
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" ng-click="deleteOrder(delivery)">
+                                                    <i class="glyphicon glyphicon-trash"></i> Eliminar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,7 +114,9 @@ if (isset($_SESSION['user'])) {
                 <div id="pickup" class="tab-pane fade">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h4><i class='glyphicon glyphicon-plus'></i> Pickup </h4>
+                            <h4>
+                                <i class='glyphicon glyphicon-plus' style="cursor:pointer"></i> 
+                            Pickup </h4>
                         </div>
                         <div class="panel-body">
                             <p style="color:black">Contenido de Pickup aquí...</p>
