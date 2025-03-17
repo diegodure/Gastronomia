@@ -10,7 +10,11 @@ if (isset($_SESSION['user'])) {
 
 <?php include("head.php"); ?>
 
+<<<<<<< HEAD
 <body ng-app="ventas" style="overflow: hidden;">
+=======
+<body ng-app="ventas" style="overflow-x: hidden; overflow-y: auto;">
+>>>>>>> c3e0ee4afbf58f1dde2b824abc0693b4af5894ea
     <?php include("navbar.php"); ?>
 
     <div class="container">
@@ -35,6 +39,7 @@ if (isset($_SESSION['user'])) {
 
             <!-- Pestañas -->
             <ul class="nav nav-tabs" role="tablist">
+<<<<<<< HEAD
                 <li ng-click="Mesas()" class="active"><a data-toggle="tab" href="#mesas">Mesas</a></li>
                 <li ng-click="selectVentas('delivery')"><a data-toggle="tab" href="#delivery">Delivery</a></li>
                 <li ng-click="selectVentas('pickup')"><a data-toggle="tab" href="#pickup">Pickup</a></li>
@@ -46,6 +51,18 @@ if (isset($_SESSION['user'])) {
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             <h4> Mesas </h4>
+=======
+                <li class="active"><a data-toggle="tab" href="#mesas">Mesas</a></li>
+                <li><a data-toggle="tab" href="#delivery">Delivery</a></li>
+                <li><a data-toggle="tab" href="#pickup">Pickup</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="mesas" class="tab-pane fade in active">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4><i class='glyphicon glyphicon-plus'></i> Nueva Venta </h4>
+>>>>>>> c3e0ee4afbf58f1dde2b824abc0693b4af5894ea
                         </div>
                         <div class="panel-body row" style="overflow:auto">
                             <div ng-repeat="mesa in mesas | orderBy:ordenSeleccionado | filter:buscar" class="col col-xl-3 col-lg-4 col-md-4 col-sm-6" ng-click="showOrder(mesa)" style="">
@@ -125,7 +142,6 @@ if (isset($_SESSION['user'])) {
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <br>

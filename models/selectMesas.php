@@ -2,7 +2,7 @@
 
 	include("../conect.php");
 
-	$sql = "select mesas.idMesas, mesas.Nombre, mesas.Descripcion, mesas.Active from mesas";
+	$sql = "select Mesas.idMesas, Mesas.Nombre, Mesas.Descripcion, Mesas.Active from Mesas";
 
 
 	$results = $con->query($sql);
