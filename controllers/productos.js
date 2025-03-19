@@ -216,32 +216,73 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 	var detImg;
 	var fd;
 	$scope.SelectFile = function (e) {
+		var imagen = e.target.files[0];
+		var reader = new FileReader();
+
+		reader.onload = function(event) {
+			var img = new Image();
+			img.onload = function() {
+				var canvas = document.createElement('canvas');
+				var ctx = canvas.getContext('2d');
+
+				// Definir dimensiones máximas
+				var MAX_WIDTH = 800;
+				var MAX_HEIGHT = 600;
+				var width = img.width;
+				var height = img.height;
+
+				if (width > height) {
+					if (width > MAX_WIDTH) {
+						height *= MAX_WIDTH / width;
+						width = MAX_WIDTH;
+					}
+				} else {
+					if (height > MAX_HEIGHT) {
+						width *= MAX_HEIGHT / height;
+						height = MAX_HEIGHT;
+					}
+				}
+
+				// Redimensionar imagen en el canvas
+				canvas.width = width;
+				canvas.height = height;
+				ctx.drawImage(img, 0, 0, width, height);
+
+				// Convertir canvas a Blob y enviarlo
+				canvas.toBlob(function(blob) {
+					// Crear FormData
+					fd = new FormData();
+					fd.append('file', blob, imagen.name);
+					fd.append('name', imagen.name);
+					fd.append('id', idP);
+
+					// Crear objeto con detalles de la imagen
+					var detImg = {
+						name: imagen.name,
+						type: imagen.type,
+						file: fd,
+						id: idP
+					};
+
+					// Configuración de la solicitud HTTP
+					let configuracion = {
+						headers: {
+							"Content-Type": undefined,
+						},
+						transformRequest: angular.identity,
+					};
+
+					// Generar URL de vista previa con la imagen reducida
+					const objectURL = URL.createObjectURL(blob);
+					angular.element($("#imgToUpload")).attr('src', objectURL);
+					$scope.$apply();
+					
+				}, 'image/jpeg', 0.8); // Calidad del JPEG (80%)
+			};
+			img.src = event.target.result;
+		};
 		
-			var imagen = e.target.files[0];
-			var reader = new FileReader();
-            
-            const objectURL = URL.createObjectURL(imagen);
-  					angular.element($("#imgToUpload")).removeAttr('src')
-            angular.element($("#imgToUpload")).attr('src', objectURL)
-            $scope.$apply();
-                        
-          fd = new FormData();
-          fd.append('file', imagen);
-          fd.append('name', e.target.files.name);
-          fd.append('id', idP);
-          
-          detImg = {
-          		name : e.target.files[0].name,
-		 		type: e.target.files[0].type,
-		 		file: fd,
-		 		id: idP
-		 	};
-		 	 let configuracion = {
-                headers: {
-                    "Content-Type": undefined,
-                },
-                transformRequest: angular.identity,
-            };
+		reader.readAsDataURL(imagen);
 	};
 	
 	$scope.cerrarModal = function(){
@@ -329,32 +370,71 @@ angular.module('productos',['angularModalService','720kb.datepicker'])
 	}
 	var fd;
 	$scope.SelectFile = function (e) {
+		var imagen = e.target.files[0];
+		var reader = new FileReader();
+
+		reader.onload = function(event) {
+			var img = new Image();
+			img.onload = function() {
+				var canvas = document.createElement('canvas');
+				var ctx = canvas.getContext('2d');
+
+				// Definir dimensiones máximas
+				var MAX_WIDTH = 800;
+				var MAX_HEIGHT = 600;
+				var width = img.width;
+				var height = img.height;
+
+				if (width > height) {
+					if (width > MAX_WIDTH) {
+						height *= MAX_WIDTH / width;
+						width = MAX_WIDTH;
+					}
+				} else {
+					if (height > MAX_HEIGHT) {
+						width *= MAX_HEIGHT / height;
+						height = MAX_HEIGHT;
+					}
+				}
+
+				// Redimensionar imagen en el canvas
+				canvas.width = width;
+				canvas.height = height;
+				ctx.drawImage(img, 0, 0, width, height);
+
+				// Convertir canvas a Blob y enviarlo
+				canvas.toBlob(function(blob) {
+					// Crear FormData
+					fd = new FormData();
+					fd.append('file', blob, imagen.name);
+					fd.append('name', imagen.name);
+
+					// Crear objeto con detalles de la imagen
+					var detImg = {
+						name: imagen.name,
+						type: imagen.type,
+						file: fd
+					};
+
+					// Configuración de la solicitud HTTP
+					let configuracion = {
+						headers: {
+							"Content-Type": undefined,
+						},
+						transformRequest: angular.identity,
+					};
+
+					// Generar URL de vista previa
+					const objectURL = URL.createObjectURL(blob);
+					$scope.imagen = objectURL;
+					$scope.$apply();
+					
+				}, 'image/jpeg', 0.8); // Calidad del JPEG (80%)
+			};
+			img.src = event.target.result;
+		};
 		
-			var imagen = e.target.files[0];
-			var reader = new FileReader();
-            
-             const objectURL = URL.createObjectURL(imagen);
-  
-            angular.element($("#imgToUpload"))
-            $scope.imagen = objectURL;
-            $scope.$apply();
-                        
-          fd = new FormData();
-          fd.append('file', imagen);
-          fd.append('name', e.target.files.name);
-          
-          var detImg = {
-          		name : e.target.files[0].name,
-		 		type: e.target.files[0].type,
-		 		file: fd
-		 	};
-		 	 let configuracion = {
-                headers: {
-                    "Content-Type": undefined,
-                },
-                transformRequest: angular.identity,
-            };
-            
+		reader.readAsDataURL(imagen);
 	};
 		
 	$scope.cerrarModal = function(){

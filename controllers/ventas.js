@@ -30,62 +30,6 @@ angular.module('ventas',['angularModalService'])
     	};
     	$scope.Mesas();
     	$scope.Productos();
-		// $scope.deliveries = [
-		// 	{
-		// 		idVentas: 1,
-		// 		NombreCliente: 'Juan',
-		// 		ApellidoCliente: 'Pérez',
-		// 		Fecha: '2024-09-30',
-		// 		Info: '0981 123 456',
-		// 		Estado: 0, // Pendiente
-		// 		Total: 150000
-		// 	},
-		// 	{
-		// 		idVentas: 2,
-		// 		NombreCliente: 'Ana',
-		// 		ApellidoCliente: 'Gómez',
-		// 		Fecha: '2024-09-29',
-		// 		Info: '0972 987 654',
-		// 		Estado: 1, // Completado
-		// 		Total: 200000
-		// 	},
-		// 	{
-		// 		idVentas: 3,
-		// 		NombreCliente: 'Luis',
-		// 		ApellidoCliente: 'Fernández',
-		// 		Fecha: '2024-09-28',
-		// 		Info: '0961 345 678',
-		// 		Estado: 0, // Pendiente
-		// 		Total: 175000
-		// 	},
-		// 	{
-		// 		idVentas: 1,
-		// 		NombreCliente: 'Juan',
-		// 		ApellidoCliente: 'Pérez',
-		// 		Fecha: '2024-09-30',
-		// 		Info: '0981 123 456',
-		// 		Estado: 0, // Pendiente
-		// 		Total: 150000
-		// 	},
-		// 	{
-		// 		idVentas: 2,
-		// 		NombreCliente: 'Ana',
-		// 		ApellidoCliente: 'Gómez',
-		// 		Fecha: '2024-09-29',
-		// 		Info: '0972 987 654',
-		// 		Estado: 1, // Completado
-		// 		Total: 200000
-		// 	},
-		// 	{
-		// 		idVentas: 3,
-		// 		NombreCliente: 'Luis',
-		// 		ApellidoCliente: 'Fernández',
-		// 		Fecha: '2024-09-28',
-		// 		Info: '0961 345 678',
-		// 		Estado: 0, // Pendiente
-		// 		Total: 175000
-		// 	}
-		// ];
 	});
 
 	$scope.Mesas = function(){

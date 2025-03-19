@@ -9,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand impulseContainerIcon" href="#">
         <img rel=icon src='../img/Impulse.png' sizes="32x32" width="32" height="32" type="image/png">
       </a>
     </div>

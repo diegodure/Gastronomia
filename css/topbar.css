@@ -1,0 +1,63 @@
+/* Topbar customization */
+.navbar {
+    background-color: #2c3e50; /* Cambiar el color de fondo de la barra de navegación */
+    border-bottom: 2px solid #1abc9c; /* Añadir un borde inferior */
+    padding: 2px 20px;
+}
+
+.navbar .navbar-brand img {
+    width: 32px;
+    height: 32px;
+}
+
+.navbar .navbar-brand {
+    color: #ecf0f1; /* Color del texto de la marca */
+}
+
+.navbar .navbar-toggle {
+    border-color: #ecf0f1; /* Color del botón de colapso */
+}
+
+.navbar .navbar-toggle .icon-bar {
+    background-color: #ecf0f1; /* Color de las líneas del ícono de colapso */
+}
+
+.navbar .nav > li > a {
+    color: #ecf0f1; /* Color de los enlaces */
+    font-weight: bold;
+}
+
+.navbar .nav > li > a:hover,
+.navbar .nav > li > a:focus {
+    color: #1abc9c; /* Cambiar el color de los enlaces al pasar el ratón */
+    background-color: transparent;
+}
+
+.navbar .navbar-right > li > a {
+    color: #ecf0f1;
+}
+
+.navbar .navbar-right > li > a:hover,
+.navbar .navbar-right > li > a:focus {
+    color: #e74c3c; /* Cambiar el color del enlace 'Salir' al pasar el ratón */
+}
+
+#spinerContainer {
+    right: 20px;
+    top: 10px;
+}
+
+#spinerContainer img{
+    width: 50vh;
+    animation: spin 1s ease infinite;
+}
+
+@keyframes giro {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.impulseContainerIcon{
+    padding: 0px;
+    padding-top: 8px;
+}

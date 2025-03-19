@@ -29,6 +29,8 @@ angular.module('compras',['angularModalService'])
 	 $scope.productos = [];
 	 var total = 0, iva = 0;
 
+	 $scope.total = 0;
+
 	 $scope.modalProveedor = function(){
 	 	// Debes proveer un controlador y una plantilla.
 	 	ModalService.showModal({

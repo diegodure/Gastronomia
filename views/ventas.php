@@ -10,11 +10,7 @@ if (isset($_SESSION['user'])) {
 
 <?php include("head.php"); ?>
 
-<<<<<<< HEAD
 <body ng-app="ventas" style="overflow: hidden;">
-=======
-<body ng-app="ventas" style="overflow-x: hidden; overflow-y: auto;">
->>>>>>> c3e0ee4afbf58f1dde2b824abc0693b4af5894ea
     <?php include("navbar.php"); ?>
 
     <div class="container">
@@ -117,14 +113,48 @@ if (isset($_SESSION['user'])) {
 
                 <div id="pickup" class="tab-pane fade">
                     <div class="panel panel-info">
-                        <div class="panel-heading">
+                        <div class="panel-heading d-flex justify-content-between align-items-center">
                             <h4>
-                                <i class='glyphicon glyphicon-plus' style="cursor:pointer"></i> 
-                            Pickup </h4>
+                                <i class="glyphicon glyphicon-plus" style="cursor:pointer" ng-click="showOrder({})"></i> Pickup
+                            </h4>
                         </div>
                         <div class="panel-body">
-                            <p style="color:black">Contenido de Pickup aquí...</p>
-                            <!-- Aquí puedes añadir tu código para mostrar pickups -->
+                            <div class="row">
+                                <div ng-repeat="pickup in pickups | orderBy:ordenSeleccionado | filter:buscar" class="col col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3">
+                                    <div class="panel panel-default shadow-sm rounded">
+                                        <div class="panel-body p-3">
+                                            <h5><strong>{{pickup.Nombre}} {{pickup.Apellido}}</strong></h5>
+                                            <p class="text-muted"><i class="glyphicon glyphicon-time"></i> Fecha: {{pickup.Fecha}}</p>
+                                            <p class="text-muted"><i class="glyphicon glyphicon-earphone"></i> Contacto: {{pickup.Info}}</p>
+                                            
+                                            <!-- Estado del pedido -->
+                                            <div ng-class="{
+                                                'alert alert-warning': pickup.Estado == 0,
+                                                'alert alert-success': pickup.Estado == 1
+                                            }">
+                                                <i class="glyphicon" ng-class="{
+                                                    'glyphicon-exclamation-sign': pickup.Estado == 0,
+                                                    'glyphicon-ok': pickup.Estado == 1
+                                                }"></i> 
+                                                {{ pickup.Estado == 0 ? 'Pedido pendiente' : 'Pedido completado' }}
+                                            </div>
+
+                                            <!-- Botones de acciones -->
+                                            <div class="d-flex justify-content-end gap-2">
+                                                <button class="btn btn-info btn-sm" ng-click="showOrder(pickup)">
+                                                    <i class="glyphicon glyphicon-eye-open"></i> Ver
+                                                </button>
+                                                <button class="btn btn-success btn-sm" ng-click="completeOrder(pickup)">
+                                                    <i class="glyphicon glyphicon-ok"></i> Completar
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" ng-click="deleteOrder(pickup)">
+                                                    <i class="glyphicon glyphicon-trash"></i> Eliminar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -142,6 +172,6 @@ if (isset($_SESSION['user'])) {
 <?php
 } else {
     echo '<script> alert("User o password incorrectos");</script>';
-    echo '<script> window.location="login.php";</script>';
+    echo '<script> window.location="../login.php";</script>';
 }
 ?>

@@ -1,135 +1,100 @@
-h2   {color:white}
-p    {color:white}
-
-/*body, html {
+/* General Styles */
+body, html {
     height: 100%;
-    background-repeat: no-repeat;
-    background-image: linear-gradient(135deg, rgba(31,123,229,1) 0%, rgba(58,139,232,1) 47%, rgba(70,153,234,1) 92%, rgba(72,156,234,1) 100%);
-    background: url(../img/login-bg.JPG) no-repeat center center fixed;
-    background-size: 100% 100%;
-}*/
+    background: linear-gradient(135deg, #2C3E50 0%, #4A69BD 100%);
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+}
 
+/* Card container */
 .card-container.card {
     width: 350px;
-    padding: 40px 40px;
+    padding: 40px;
 }
 
-.btn {
-    font-weight: 700;
-    height: 36px;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: pointer;
-}
-
-/*
- * Card component
- */
+/* Card styles */
 .card {
-    background-color: #F7F7F7;
-    /* just in case there no content*/
-    padding: 20px 25px 30px;
-    margin: 0 auto 25px;
-    margin-top: 50px;
-    /* shadows and rounded borders */
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    background-color: #f9f9f9;
+    padding: 30px;
+    margin: 0 auto;
+    margin-top: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
+/* Profile Image */
 .profile-img-card {
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 10px;
-    display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
+    margin-bottom: 15px;
+    border: 2px solid #4A69BD;
 }
 
-/*
- * Form styles
- */
-.profile-name-card {
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    margin: 10px 0 0;
-    min-height: 1em;
-}
-
-.reauth-email {
-    display: block;
-    color: #404040;
-    line-height: 2;
-    margin-bottom: 10px;
-    font-size: 14px;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.form-signin #inputEmail,
-.form-signin #inputPassword {
-    direction: ltr;
-    height: 44px;
-    font-size: 16px;
-}
-
-.form-signin input[type=email],
-.form-signin input[type=password],
-.form-signin input[type=text],
-.form-signin button {
+/* Form styles */
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
     width: 100%;
-    display: block;
-    margin-bottom: 10px;
-    z-index: 1;
-    position: relative;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out;
 }
 
-.form-signin .form-control:focus {
-    border-color: rgb(104, 145, 162);
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+.form-signin input[type="text"]:focus,
+.form-signin input[type="password"]:focus {
+    border-color: #4A69BD;
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 105, 189, 0.5);
 }
 
-.btn.btn-signin {
-    /*background-color: #4d90fe; */
-    /*background-color: rgb(104, 145, 162);
-    / background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
-    padding: 0px;
-    font-weight: 700;
-    font-size: 14px;
-    height: 36px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+/* Button styles */
+.btn-signin {
+    background-color: #4A69BD;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 5px;
     border: none;
-    -o-transition: all 0.218s;
-    -moz-transition: all 0.218s;
-    -webkit-transition: all 0.218s;
-    transition: all 0.218s;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
+.btn-signin:hover {
+    background-color: #3B5998;
+}
 
+/* Secondary button for registration */
+.btn-success {
+    background-color: #2C3E50;
+    color: #fff;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-success:hover {
+    background-color: #1A242F;
+}
+
+/* Forgot password link */
 .forgot-password {
-    color: rgb(104, 145, 162);
+    color: #4A69BD;
+    font-size: 14px;
+    display: block;
+    margin-top: 10px;
 }
 
-.forgot-password:hover,
-.forgot-password:active,
-.forgot-password:focus{
-    color: rgb(12, 97, 33);
+.forgot-password:hover {
+    color: #2C3E50;
+    text-decoration: underline;
 }

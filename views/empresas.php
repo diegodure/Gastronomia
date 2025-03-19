@@ -99,7 +99,7 @@
 		}
 	 }else{
 	 	echo '<script> alert("User o password incorrectos");</script>';
-        echo '<script> window.location="login.php";</script>';
+        echo '<script> window.location="../login.php";</script>';
     }
 
 ?>

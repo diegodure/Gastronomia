@@ -69,8 +69,8 @@
 									<td>{{usuario.Rol}}</td>
 
 									<td><span class="pull-right">
-									<a href="#" class='btn btn-default' title='Editar usuario' ng-click="modificar(usuario)" data-toggle="modal"><i class="glyphicon glyphicon-edit"></i></a> 
-									<a href="#" class='btn btn-default' title='Borrar usuario' ng-click="eliminar(usuario)" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> </a></span></td>
+									<a href="#" class='btn btn-sm btn-warning' title='Editar usuario' ng-click="modificar(usuario)" data-toggle="modal"><i class="glyphicon glyphicon-edit"></i></a> 
+									<a href="#" class='btn btn-sm btn-danger' title='Borrar usuario' ng-click="eliminar(usuario)" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> </a></span></td>
 								</tr>
 								
 							</table>
@@ -103,7 +103,7 @@
 		}
 	 }else{
 	 	echo '<script> alert("User o password incorrectos");</script>';
-        echo '<script> window.location="login.php";</script>';
+        echo '<script> window.location="../login.php";</script>';
     }
 
 ?>

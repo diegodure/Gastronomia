@@ -70,8 +70,8 @@
 									<td>{{cliente.Info}}</td>
 
 									<td><span class="pull-right">
-									<a href="#" class='btn btn-default' title='Editar cliente' ng-click="modificar(cliente)" data-toggle="modal"><i class="glyphicon glyphicon-edit"></i></a> 
-									<a href="#" class='btn btn-default' title='Borrar cliente' ng-click="eliminar(cliente)" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> </a></span></td>
+									<a href="#" class='btn btn-sm btn-warning' title='Editar cliente' ng-click="modificar(cliente)" data-toggle="modal"><i class="glyphicon glyphicon-edit"></i></a> 
+									<a href="#" class='btn btn-sm btn-danger' title='Borrar cliente' ng-click="eliminar(cliente)" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> </a></span></td>
 								</tr>
 								
 							</table>

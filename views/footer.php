@@ -1,15 +1,14 @@
 
 <!-- <img src="https://www.codigos-qr.com/qr/php/qr_img.php?d=https%3A%2F%2Fwww.facebook.com%2FImpulse-Servicios-inform%25C3%25A1ticos-109973551292656&s=6&e=m" alt="QR Code generator"/> -->
 
-<div class="navbar navbar-default navbar-fixed-bottom">
+<div class="navbar navbar-default navbar-fixed-bottom" style="height: 15px;">
     <div class="container">
-      <p class="navbar-text pull-left">&copy <?php echo date('Y');?> -
+      <p class="navbar-text pull-left" style="margin:0px">&copy <?php echo date('Y');?> -
            <a href="#" target="_blank" style="color: #ecf0f1">Impulse</a>
            <img rel=icon src='../img/Impulse.png' sizes="32x32" width="32" height="32" type="image/png">
       </p>
 
    </div>
-
 </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
