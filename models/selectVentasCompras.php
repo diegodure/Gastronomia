@@ -1,40 +1,71 @@
 <?php
+// Mostrar errores en PHP (para depuración, quitar en producción)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    $data = json_decode(file_get_contents("php://input"));
-    $fecha1 = $data->{"fecha1"};
-    $fecha2 = $data->{"fecha2"};
+header("Content-Type: application/json; charset=UTF-8");
 
-    include("../conect.php");
+include("../conect.php");
 
-    $sql ="select ventas.idVentas, SUM(ventas.Total) as totalVentas, ventas.Fecha from ventas where Ventas.Fecha >= '$fecha1' and Ventas.Fecha <= '$fecha2' group by ventas.Fecha order by ventas.idVentas DESC";
+// Leer JSON recibido
+$data = json_decode(file_get_contents("php://input"));
 
-    $results = $con->query($sql);
+if (!$data || !isset($data->fecha1) || !isset($data->fecha2)) {
+    echo json_encode(["error" => "Datos inválidos o incompletos"]);
+    exit;
+}
 
-    $rawdata = array();
+// Escapar valores para evitar inyección SQL
+$fecha1 = mysqli_real_escape_string($con, $data->fecha1);
+$fecha2 = mysqli_real_escape_string($con, $data->fecha2);
 
-    $i = 0;
+// Consulta de ventas
+$sqlVentas = "SELECT 
+                ventas.idVentas, 
+                SUM(ventas.Total) as totalVentas, 
+                ventas.Fecha 
+              FROM ventas 
+              WHERE ventas.Fecha BETWEEN '$fecha1' AND '$fecha2' 
+              GROUP BY ventas.Fecha 
+              ORDER BY ventas.idVentas DESC";
 
-    while($row = mysqli_fetch_array($results)){
-        $rawdata[$i] = $row;
-        $i++;
+$resultVentas = $con->query($sqlVentas);
 
-    }
+if (!$resultVentas) {
+    echo json_encode(["error" => "Error en la consulta de ventas: " . $con->error]);
+    exit;
+}
 
-    $sql2 = "select compras.idCompra, SUM(compras.Total) as totalCompras, compras.Fecha from compras where compras.Fecha >= '$fecha1' and compras.Fecha <= '$fecha2' group by compras.Fecha order by compras.idCompra DESC";
+$ventas = [];
+while ($row = mysqli_fetch_assoc($resultVentas)) {
+    $ventas[] = $row;
+}
 
-    $results2 = $con->query($sql2);
+// Consulta de compras
+$sqlCompras = "SELECT 
+                compras.idCompra, 
+                SUM(compras.Total) as totalCompras, 
+                compras.Fecha 
+              FROM compras 
+              WHERE compras.Fecha BETWEEN '$fecha1' AND '$fecha2' 
+              GROUP BY compras.Fecha 
+              ORDER BY compras.idCompra DESC";
 
-    $rawdata2 = array();
-    $i2 = 0;
+$resultCompras = $con->query($sqlCompras);
 
-    while($row2 = mysqli_fetch_array($results2)){
-        $rawdata2[$i2] = $row2;
-        $i2++;
-    }
+if (!$resultCompras) {
+    echo json_encode(["error" => "Error en la consulta de compras: " . $con->error]);
+    exit;
+}
 
-    $con->close();
+$compras = [];
+while ($row = mysqli_fetch_assoc($resultCompras)) {
+    $compras[] = $row;
+}
 
-    array_push($rawdata, $rawdata2);
-    $myArray = $rawdata;
-    echo json_encode($myArray, JSON_UNESCAPED_UNICODE);
+// Cerrar conexión
+$con->close();
+
+// Devolver los datos como un objeto JSON con claves
+echo json_encode(["ventas" => $ventas, "compras" => $compras], JSON_UNESCAPED_UNICODE);
 ?>

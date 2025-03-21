@@ -260,9 +260,8 @@ angular.module('reportesBalances',['720kb.datepicker','chart.js'])
             var num = 0;
             var dateCompare = 0;
             console.log(data)
-            var lengthVentas = data.length-1
-            $scope.compras = data[lengthVentas];
-            $scope.ventas = data;
+            $scope.compras = data.compras;
+            $scope.ventas = data.ventas;
             $scope.toalVentas = [];
             $scope.toalCompras = [];                  
             for(var i = 0; i < $scope.ventas.length-1; i++){

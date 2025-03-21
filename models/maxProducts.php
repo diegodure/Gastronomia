@@ -1,27 +1,64 @@
 <?php
+// Mostrar errores en PHP (para depuración, quitar en producción)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    $data = json_decode(file_get_contents("php://input"));
-    $fecha1 = $data->{"fecha1"};
-    $fecha2 = $data->{"fecha2"};
+header("Content-Type: application/json; charset=UTF-8");
 
-    include("../conect.php");
+// Conectar a la base de datos
+include("../conect.php");
 
-    $sql ="select det_ventas.Ventas_idVentas, det_ventas.Condicion_Venta, det_ventas.Precio, ventas.Fecha, productos.Nombre, productos.Costo, productos.PrecioUnitario, productos.PrecioPromocional, SUM(det_ventas.Cantidad) as CantidadVentas, SUM(det_ventas.subTotal) as TotalVentas from det_ventas inner join productos on det_ventas.Productos_idProductos=productos.idProductos inner join ventas on det_ventas.Ventas_idVentas=ventas.idVentas where Ventas.Fecha >= '$fecha1' and Ventas.Fecha <= '$fecha2' group by Productos.idProductos, det_ventas.Condicion_Venta order by SUM(det_ventas.Cantidad) DESC";
+// Leer el JSON recibido
+$data = json_decode(file_get_contents("php://input"));
 
-    $results = $con->query($sql);
+if (!$data || !isset($data->fecha1) || !isset($data->fecha2)) {
+    echo json_encode(["error" => "Datos inválidos o incompletos"]);
+    exit;
+}
 
-    $rawdata = array();
+$fecha1 = $data->fecha1;
+$fecha2 = $data->fecha2;
 
-    $i = 0;
+// Escapar las variables para evitar inyección SQL
+$fecha1 = mysqli_real_escape_string($con, $fecha1);
+$fecha2 = mysqli_real_escape_string($con, $fecha2);
 
-    while($row = mysqli_fetch_array($results)){
-        $rawdata[$i] = $row;
-        $i++;
+// Consulta SQL
+$sql = "SELECT 
+            det_ventas.Ventas_idVentas, 
+            det_ventas.Condicion_Venta, 
+            det_ventas.Precio, 
+            ventas.Fecha, 
+            productos.Nombre, 
+            productos.Costo, 
+            productos.PrecioUnitario, 
+            productos.PrecioPromocional, 
+            SUM(det_ventas.Cantidad) as CantidadVentas, 
+            SUM(det_ventas.subTotal) as TotalVentas 
+        FROM det_ventas 
+        INNER JOIN productos ON det_ventas.Productos_idProductos = productos.idProductos 
+        INNER JOIN ventas ON det_ventas.Ventas_idVentas = ventas.idVentas 
+        WHERE ventas.Fecha BETWEEN '$fecha1' AND '$fecha2' 
+        GROUP BY productos.idProductos, det_ventas.Condicion_Venta 
+        ORDER BY SUM(det_ventas.Cantidad) DESC";
 
-    }
+// Ejecutar la consulta y manejar errores
+$results = $con->query($sql);
 
-    $con->close();
+if (!$results) {
+    echo json_encode(["error" => "Error en la consulta SQL: " . $con->error]);
+    exit;
+}
 
-    $myArray = $rawdata;
-    echo json_encode($myArray, JSON_UNESCAPED_UNICODE);
+// Obtener los resultados en un array
+$rawdata = [];
+while ($row = mysqli_fetch_assoc($results)) {
+    $rawdata[] = $row;
+}
+
+// Cerrar conexión
+$con->close();
+
+// Devolver los datos en formato JSON
+echo json_encode($rawdata, JSON_UNESCAPED_UNICODE);
 ?>
